@@ -3,11 +3,11 @@ fitmodels <- function(x) {
   fit.linear  <- lm(CWM ~ x, data = hydroCWM)
   fit.quad    <- lm(CWM ~ x + I(x ^2), data = hydroCWM)
   
-  # can't do lm's if there are any NaN values, so we'll omit them
+  # can't do lm's if there are any NaN/Inf values, so we'll omit them
   
-  log10x <- log10(x)
+  k <- log10(x)
   hydroCWM_naomit <- hydroCWM
-  hydroCWM_naomit$log10x <- log10x
+  hydroCWM_naomit$j <- k
   hydroCWM_naomit <- na.omit(hydroCWM_naomit)
   
   # but let's get a readout of which hydro metrics were affected
@@ -18,7 +18,7 @@ fitmodels <- function(x) {
  #   NaNs <- rbind(hydroname)
  # }
           
-  fit.exp     <- lm(CWM ~ log10x, data = hydroCWM_naomit)
+  fit.exp     <- lm(CWM ~ j, data = hydroCWM_naomit)
   
   # p-values
   linear.pval <- anova(fit.linear)[1,"Pr(>F)"]
