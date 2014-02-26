@@ -22,22 +22,22 @@ fitmodels <- function(x) {
 }
 
 
-bestmodel <- function(data) { #group is the dataset 
+bestmodel <- function(group, ...) { # is the dataset 
   
-  for (i in 1:length(data$bestmodel))  {
+  for (i in 1:length(group$bestmodel))  {
     
-    hydro <- data$metric[i]
+#    hydro <- group$metric[[i]]
     
-    if (data$bestmodel[i] == 1) {
-      plot.linear(hydro)
+    if (group$bestmodel[i] == 1) {
+      plot.linear(group$metric[[i]])
     }
     else {
-      if (data$bestmodel[i] == 2) {
-        plot.quad(hydro)
+      if (group$bestmodel[i] == 2) {
+        plot.quad(group$metric[[i]])
       }
       else {
-        if (data$bestmodel[i] ==3) {
-          plot.exp(hydro)
+        if (group$bestmodel[i] ==3) {
+          plot.exp(group$metric[[i]])
         }
       }
     }
@@ -45,22 +45,34 @@ bestmodel <- function(data) { #group is the dataset
 
 }
 
-plot.linear <- function(x) {
-  p <- qplot(x, CWM, data = hydroCWM)
+plot.linear <- function(j, df) {
+  
+#  plot(hydroCWM$CWM ~ j)
+#  k <- hydroCWM$hydro
+#  p <- ggplot(df, aes_string(y = CWM, x = j))
+  p <- qplot(j, hydroCWM$CWM)
   p <- p + geom_point()
   p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE)   
   print(p)  
 }
 
-plot.quad <- function(x) {
-  p <- qplot(x, CWM, data = hydroCWM)
+plot.quad <- function(j, df) {
+#  plot(hydroCWM$CWM ~ j)
+#  k <- hydroCWM$hydro
+#  p <- ggplot(df, aes_string(y = CWM, x = j))
+  p <- qplot(j, hydroCWM$CWM)
   p <- p + geom_point()
   p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE)   
   print(p)  
 }
 
-plot.exp <- function(x) {
-  p <- qplot(x, CWM, data = hydroCWM)
+plot.exp <- function(j, data) {
+
+#  plot(hydroCWM$CWM ~ j)
+  
+#  k <- hydroCWM$hydro
+  # p <- ggplot(df, aes_string(y = CWM, x = j))
+  p <- qplot(j, hydroCWM$CWM)
   p <- p + geom_point()
   p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE)   
   print(p)  

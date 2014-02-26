@@ -61,9 +61,11 @@ write.csv(unpredictablemodels, file="output/unpredictablemodels.csv")
 bestmodels.flood <- as.data.frame(rownames(floodmodels))
 bestmodels.flood$bestmodel <- c(0,0,0,2,2,2,0,0,2)
 colnames(bestmodels.flood)[1] <- c("metric")
+bestmodels.flood$metric <- as.character(bestmodels.flood$metric)
 
 bestmodels.unpredictable <- as.data.frame(rownames(unpredictablemodels))
 bestmodels.unpredictable$bestmodel <- c(0,0,0,0,0,0,0,2,2,2,1,0,2,2,0)
 colnames(bestmodels.unpredictable)[1] <- c("metric")
+bestmodels.unpredictable$metric <- as.character(bestmodels.unpredictable$metric) #because the metrics were reading in as factors
 
-
+bestmodel(bestmodels.flood, data = hydroCWM)
