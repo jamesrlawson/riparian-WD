@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1393388069717.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2CAA18AA",
+    "lastKnownWriteTime" : 27303570963497028,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "fitmodels.output",
+        "contentUrl" : "content?title=fitmodels.output&file=654750d6cceb45a098b8d3201929c8f9.htm",
+        "displayedObservations" : 29,
+        "displayedVariables" : 6,
+        "totalObservations" : 29,
+        "variables" : 6
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

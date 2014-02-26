@@ -1,12 +1,12 @@
 {
-    "contents" : "fitmodels <- function(x) {\n  \n  fit.linear  <- lm(CWM ~ x, data = hydroCWM)\n  fit.quad    <- lm(CWM ~ x + I(x ^2), data = hydroCWM)\n  \n  # can't do lm's if there are any NaN/Inf values, so we'll omit them\n  \n  k <- log10(x)\n  hydroCWM_naomit <- hydroCWM\n  hydroCWM_naomit$j <- k\n  hydroCWM_naomit <- na.omit(hydroCWM_naomit)\n  \n  # but let's get a readout of which hydro metrics were affected\n  \n # hydroname <- names(hydroCWM[x])\n  \n # if(any(hydroCWM == 0)) {\n #   NaNs <- rbind(hydroname)\n # }\n          \n  fit.exp     <- lm(CWM ~ j, data = hydroCWM_naomit)\n  \n  # p-values\n  linear.pval <- anova(fit.linear)[1,\"Pr(>F)\"]\n  quad.pval   <- anova(fit.quad)[1,\"Pr(>F)\"]\n  exp.pval    <- anova(fit.exp)[1,\"Pr(>F)\"]\n  \n  # r-squared\n  linear.r2   <- summary(fit.linear)$r.squared\n  quad.r2     <- summary(fit.quad)$r.squared\n  exp.r2      <- summary(fit.exp)$r.squared  \n  \n  fitmodels.df <- cbind(linear.pval, linear.r2, quad.pval, quad.r2, exp.pval, exp.r2)\n  colnames(fitmodels.df) <- c(\"linear.pval\", \"linear.r2\", \"quad.pval\", \"quad.r2\", \"exp.pval\", \"exp.r2\")\n  \n # write.csv(NaNs, file=\"output/NaNs.csv\")\n  write.csv(fitmodels.df, file=\"output/NaNs.csv\")\n  \n}\n\n\n",
+    "contents" : "fitmodels <- function(x) {\n    \n if(any(hydroCWM$x == 0)) {\n   \n   fit.linear  <- lm(CWM ~ x, data = hydroCWM)\n   fit.quad    <- lm(CWM ~ x + I(x ^2), data = hydroCWM) \n   \n   linear.pval <- anova(fit.linear)[1,\"Pr(>F)\"]\n   quad.pval   <- anova(fit.quad)[1,\"Pr(>F)\"]\n   exp.pval <- c(0)\n   \n   linear.r2   <- summary(fit.linear)$r.squared\n   quad.r2     <- summary(fit.quad)$r.squared\n   exp.r2      <- c(0)  \n }\n \n else {\n   \n  fit.linear  <- lm(CWM ~ x, data = hydroCWM)\n  fit.quad    <- lm(CWM ~ x + I(x ^2), data = hydroCWM)  \n  fit.exp     <- lm(CWM ~ x, data = hydroCWM)\n  \n  # p-values\n  linear.pval <- anova(fit.linear)[1,\"Pr(>F)\"]\n  quad.pval   <- anova(fit.quad)[1,\"Pr(>F)\"]\n  exp.pval    <- anova(fit.exp)[1,\"Pr(>F)\"]\n  \n  # r-squared\n  linear.r2   <- summary(fit.linear)$r.squared\n  quad.r2     <- summary(fit.quad)$r.squared\n  exp.r2      <- summary(fit.exp)$r.squared  \n  \n  }\n  \n  fitmodels.df <- cbind(linear.pval, linear.r2, quad.pval, quad.r2, exp.pval, exp.r2)\n  \n  write.table(fitmodels.df, file=\"output/fitmodels.csv\", append=TRUE, sep=\",\", col.names=FALSE, row.names=FALSE)\n \n}\n\n#columns <- c(\"linear.pval\", \"linear.r2\", \"quad.pval\", \"quad.r2\", \"exp.pval\", \"exp.r2\")\n#rownames(fitmodels.df) <- colnames(hydroCWM)\n\n",
     "created" : 1393378021713.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4070380477",
+    "hash" : "3169462231",
     "id" : "91E87F0D",
-    "lastKnownWriteTime" : 1393385620,
+    "lastKnownWriteTime" : 1393388091,
     "path" : "C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans/scripts/functions.R",
     "project_path" : "scripts/functions.R",
     "properties" : {
