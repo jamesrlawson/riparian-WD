@@ -24,7 +24,7 @@ fitmodels <- function(x) {
 
 bestmodel <- function(data) { #group is the dataset 
   
-  for (i in 1:length(bestmodel))  {
+  for (i in 1:length(data$bestmodel))  {
     
     hydro <- data$metric[i]
     
@@ -45,7 +45,23 @@ bestmodel <- function(data) { #group is the dataset
 
 }
 
+plot.linear <- function(x) {
+  p <- qplot(x, CWM, data = hydroCWM)
+  p <- p + geom_point()
+  p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE)   
+  print(p)  
+}
 
+plot.quad <- function(x) {
+  p <- qplot(x, CWM, data = hydroCWM)
+  p <- p + geom_point()
+  p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE)   
+  print(p)  
+}
 
-
-
+plot.exp <- function(x) {
+  p <- qplot(x, CWM, data = hydroCWM)
+  p <- p + geom_point()
+  p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE)   
+  print(p)  
+}
