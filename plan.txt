@@ -1,0 +1,19 @@
+Load libraries
+
+Load in data
+
+Manually add column with value describing multiple comparsion group (1 = floods, 2 = unpredictability)
+
+Fit linear, quadratic and exponential models to all hydro metrics
+
+Output dataframe with p values and r squared for each model
+	- use ldply
+
+Run BH p-value adjustment using ddply by multiple comparison group, append output to dataframe
+
+Inspect output and manually add column 'fit' with values 1, 2, 3 (corresponding to whether linear, quadratic or exponential model gives the best fit)
+
+Graph according to fit == 1, else fit == 2, else fit == 3
+	- use different pch for each hydrological class
+
+ 
