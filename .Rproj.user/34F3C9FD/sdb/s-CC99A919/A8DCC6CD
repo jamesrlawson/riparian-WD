@@ -1,0 +1,17 @@
+{
+    "contents" : "library(plyr)\nlibrary(ggplot2)\n\n\nsource(functions.R)\n\nCWM <- read.csv(\"data/CWM.csv\", header=TRUE)\nhydro <- read.csv(\"data/hydro.csv\", header=TRUE)\n\nhydroCWM <- merge(hydro, CWM)\n\n# \n\nfitmodels.output <- ldply(hydroCWM, fitmodels)",
+    "created" : 1393378022649.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4193654700",
+    "id" : "A8DCC6CD",
+    "lastKnownWriteTime" : 1393378918,
+    "path" : "C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans/scripts/analysis.R",
+    "project_path" : "scripts/analysis.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
