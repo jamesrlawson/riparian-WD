@@ -51,6 +51,10 @@ unpredictablemodels$linear.padj <- p.adjust(unpredictablemodels$linear.pval, met
 unpredictablemodels$quad.padj <- p.adjust(unpredictablemodels$quad.pval, method="BH")
 unpredictablemodels$exp.padj <- p.adjust(unpredictablemodels$exp.pval, method="BH")
 
+write.csv(floodmodels, file="output/floodmodels.csv")
+write.csv(unpredictablemodels, file="output/unpredictablemodels.csv")
 
+# now, Inspect output and manually add column 'fit' with values 1, 2, 3 
+# (corresponding to whether linear, quadratic or exponential model gives the best fit)
 
 
