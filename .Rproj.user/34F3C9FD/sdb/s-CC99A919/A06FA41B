@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1393392098247.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A06FA41B",
+    "lastKnownWriteTime" : 1393391329,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "unpredictablemodels",
+        "contentUrl" : "content?title=unpredictablemodels&file=e081f0dfff654cc1afbafc559ea57471.htm",
+        "displayedObservations" : 0,
+        "displayedVariables" : 10,
+        "totalObservations" : 0,
+        "variables" : 9
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
