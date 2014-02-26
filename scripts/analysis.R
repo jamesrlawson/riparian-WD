@@ -2,13 +2,13 @@ library(plyr)
 library(ggplot2)
 
 
-source(functions.R)
+source("scripts/functions.R")
 
 CWM <- read.csv("data/CWM.csv", header=TRUE)
 hydro <- read.csv("data/hydro.csv", header=TRUE)
 
 hydroCWM <- merge(hydro, CWM)
-
-# 
+ 
 
 fitmodels.output <- ldply(hydroCWM, fitmodels)
+
