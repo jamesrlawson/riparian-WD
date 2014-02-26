@@ -32,6 +32,7 @@ fitmodels.output <- fitmodels.output[-27,] # CWM
 fitmodels.output <- fitmodels.output[-26,] # category
 fitmodels.output <- fitmodels.output[-1,] # plotID
 
+# read in comparison groups
 fitmodels.output <- format(fitmodels.output, digits=2, trim=TRUE) 
 
 comparisonGroups <- read.csv("data/comparisonGroups.csv", header=FALSE)
@@ -41,6 +42,14 @@ fitmodels.output$comparisonGroups <- comparisonGroups[[2]]
 
 floodmodels <- fitmodels.output[fitmodels.output$comparisonGroups == "1",]
 unpredictablemodels <- fitmodels.output[fitmodels.output$comparisonGroups == "2",]
+
+# adjust pvals for multiple comparison
+floodmodels$linear.padj <- p.adjust(floodmodels$linear.pval, method="BH")
+floodmodels$quad.padj <- p.adjust(floodmodels$quad.pval, method="BH")
+floodmodels$exp.padj <- p.adjust(floodmodels$exp.pval, method="BH")
+unpredictablemodels$linear.padj <- p.adjust(unpredictablemodels$linear.pval, method="BH")
+unpredictablemodels$quad.padj <- p.adjust(unpredictablemodels$quad.pval, method="BH")
+unpredictablemodels$exp.padj <- p.adjust(unpredictablemodels$exp.pval, method="BH")
 
 
 
