@@ -33,7 +33,15 @@ fitmodels.output <- fitmodels.output[-26,] # category
 fitmodels.output <- fitmodels.output[-1,] # plotID
 
 fitmodels.output <- format(fitmodels.output, digits=2, trim=TRUE) 
-View(fitmodels.output)
+
+comparisonGroups <- read.csv("data/comparisonGroups.csv", header=FALSE)
+
+fitmodels.output$comparisonGroups <- comparisonGroups[[2]]
+
+
+floodmodels <- fitmodels.output[fitmodels.output$comparisonGroups == "1",]
+unpredictablemodels <- fitmodels.output[fitmodels.output$comparisonGroups == "2",]
+
 
 
 

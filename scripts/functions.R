@@ -38,6 +38,5 @@ fitmodels <- function(x) {
  
 }
 
-#columns <- c("linear.pval", "linear.r2", "quad.pval", "quad.r2", "exp.pval", "exp.r2")
-#rownames(fitmodels.df) <- colnames(hydroCWM)
+
 
