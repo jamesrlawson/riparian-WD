@@ -54,7 +54,16 @@ unpredictablemodels$exp.padj <- p.adjust(unpredictablemodels$exp.pval, method="B
 write.csv(floodmodels, file="output/floodmodels.csv")
 write.csv(unpredictablemodels, file="output/unpredictablemodels.csv")
 
-# now, Inspect output and manually add column 'fit' with values 1, 2, 3 
-# (corresponding to whether linear, quadratic or exponential model gives the best fit)
+# now, nspect output and manually determine best fitting model 
+# values 0, 1, 2, 3 
+# (corresponding to whether no significant models, linear, quadratic or exponential)
+
+bestmodels.flood <- as.data.frame(rownames(floodmodels))
+bestmodels.flood$bestmodel <- c(0,0,0,2,2,2,0,0,2)
+colnames(bestmodels.flood)[1] <- c("metric")
+
+bestmodels.unpredictable <- as.data.frame(rownames(unpredictablemodels))
+bestmodels.unpredictable$bestmodel <- c(0,0,0,0,0,0,0,2,2,2,1,0,2,2,0)
+colnames(bestmodels.unpredictable)[1] <- c("metric")
 
 

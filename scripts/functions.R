@@ -22,4 +22,30 @@ fitmodels <- function(x) {
 }
 
 
+bestmodel <- function(data) { #group is the dataset 
+  
+  for (i in 1:length(bestmodel))  {
+    
+    hydro <- data$metric[i]
+    
+    if (data$bestmodel[i] == 1) {
+      plot.linear(hydro)
+    }
+    else {
+      if (data$bestmodel[i] == 2) {
+        plot.quad(hydro)
+      }
+      else {
+        if (data$bestmodel[i] ==3) {
+          plot.exp(hydro)
+        }
+      }
+    }
+  }
+
+}
+
+
+
+
 
