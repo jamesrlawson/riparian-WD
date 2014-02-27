@@ -32,9 +32,10 @@ fitmodels.output <- fitmodels.output[-27,] # CWM
 fitmodels.output <- fitmodels.output[-26,] # category
 fitmodels.output <- fitmodels.output[-1,] # plotID
 
-# read in comparison groups
+
 fitmodels.output <- format(fitmodels.output, digits=2, trim=TRUE) 
 
+# read in comparison groups
 comparisonGroups <- read.csv("data/comparisonGroups.csv", header=FALSE)
 
 fitmodels.output$comparisonGroups <- comparisonGroups[[2]]
@@ -68,4 +69,13 @@ bestmodels.unpredictable$bestmodel <- c(0,0,0,0,0,0,0,2,2,2,1,0,2,2,0)
 colnames(bestmodels.unpredictable)[1] <- c("metric")
 bestmodels.unpredictable$metric <- as.character(bestmodels.unpredictable$metric) #because the metrics were reading in as factors
 
-bestmodel(bestmodels.flood, data = hydroCWM)
+#put catname in because we need it now for our plots
+
+hydroCWM$catname <- hydro$catname
+
+plot.quad(hydroCWM)
+plot.linear(hydroCWM)
+plot.exp(hydroCWM)
+
+
+

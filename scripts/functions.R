@@ -21,59 +21,65 @@ fitmodels <- function(x) {
  
 }
 
+# using a loop allows us to access colnames, where plyr does not
 
-bestmodel <- function(group, ...) { # is the dataset 
+plot.linear <- function(df) {
   
-  for (i in 1:length(group$bestmodel))  {
+  for(i in 1:ncol(df)) {
+    hydro <- df[[i]]  
+    hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
-#    hydro <- group$metric[[i]]
+    fit.linear <- lm(CWM ~ hydro, data = df)
     
-    if (group$bestmodel[i] == 1) {
-      plot.linear(group$metric[[i]])
-    }
-    else {
-      if (group$bestmodel[i] == 2) {
-        plot.quad(group$metric[[i]])
-      }
-      else {
-        if (group$bestmodel[i] ==3) {
-          plot.exp(group$metric[[i]])
-        }
-      }
-    }
+    p <- qplot(hydro, CWM, data = df) 
+    p = p + geom_point(aes(shape = catname))
+    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
+    p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
+    p = p + xlab(hydroname)
+    p = p + ylab("AWM wood density (g/cm^3)")
+    p = p + ggtitle(paste("Adj R2 = ",signif(summary(fit.linear)$adj.r.squared, 5),
+                          "; p =",signif(summary(fit.linear)$coef[2,4], 5)))
+    
+    p = p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
+                  #increase size of axis lines
+                  axis.line = element_line(size=.7, color = "black"),
+                  legend.position = "bottom",
+                  panel.background = element_blank(),      
+                  plot.title = element_text(size=10),
+                  text = element_text(size=12))   
+    
+    print(p)
+    
   }
-
 }
 
-plot.linear <- function(j, df) {
+
+
+plot.quad <- function(df) {
   
-#  plot(hydroCWM$CWM ~ j)
-#  k <- hydroCWM$hydro
-#  p <- ggplot(df, aes_string(y = CWM, x = j))
-  p <- qplot(j, hydroCWM$CWM)
-  p <- p + geom_point()
-  p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE)   
-  print(p)  
-}
-
-plot.quad <- function(j, df) {
-#  plot(hydroCWM$CWM ~ j)
-#  k <- hydroCWM$hydro
-#  p <- ggplot(df, aes_string(y = CWM, x = j))
-  p <- qplot(j, hydroCWM$CWM)
-  p <- p + geom_point()
-  p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE)   
-  print(p)  
-}
-
-plot.exp <- function(j, data) {
-
-#  plot(hydroCWM$CWM ~ j)
-  
-#  k <- hydroCWM$hydro
-  # p <- ggplot(df, aes_string(y = CWM, x = j))
-  p <- qplot(j, hydroCWM$CWM)
-  p <- p + geom_point()
-  p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE)   
-  print(p)  
+  for(i in 1:ncol(df)) {
+    hydro <- df[[i]]  
+    hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
+    
+    fit.quad <- lm(CWM ~ hydro + I(hydro^2), data = df)
+    
+    p <- qplot(hydro, CWM, data = df) 
+    p = p + geom_point(aes(shape = catname))
+    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
+    p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black") 
+    p = p + xlab(hydroname)
+    p = p + ylab("AWM wood density (g/cm^3)")
+    p = p + ggtitle(paste("Adj R2 = ",signif(summary(fit.quad)$adj.r.squared, 5),
+                          "; p =",signif(summary(fit.quad)$coef[2,4], 5)))
+    
+    p = p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
+                  axis.line = element_line(size=.7, color = "black"),
+                  legend.position = "bottom",
+                  panel.background = element_blank(),      
+                  plot.title = element_text(size=10),
+                  text = element_text(size=12))   
+    
+    print(p)
+    
+  }
 }
