@@ -55,17 +55,24 @@ unpredictablemodels$exp.padj <- p.adjust(unpredictablemodels$exp.pval, method="B
 write.csv(floodmodels, file="output/floodmodels.csv")
 write.csv(unpredictablemodels, file="output/unpredictablemodels.csv")
 
+# now put them back together...
+
+padj <- rbind(floodmodels, unpredictablemodels)
+padj$metric <- rownames(padj)
+bestmodels <- rbind(bestmodels.flood, bestmodels.unpredictable)
+padj <- merge(padj, bestmodels)
+       
 # now, nspect output and manually determine best fitting model 
 # values 0, 1, 2, 3 
 # (corresponding to whether no significant models, linear, quadratic or exponential)
 
 bestmodels.flood <- as.data.frame(rownames(floodmodels))
-bestmodels.flood$bestmodel <- c(0,0,0,2,2,2,0,0,2)
+bestmodels.flood$bestmodel <- c(0,0,0,2,2,2,0,0,3)
 colnames(bestmodels.flood)[1] <- c("metric")
 bestmodels.flood$metric <- as.character(bestmodels.flood$metric)
 
 bestmodels.unpredictable <- as.data.frame(rownames(unpredictablemodels))
-bestmodels.unpredictable$bestmodel <- c(0,0,0,0,0,0,0,2,2,2,1,0,2,2,0)
+bestmodels.unpredictable$bestmodel <- c(0,0,0,0,0,0,0,2,2,2,1,0,2,1,0)
 colnames(bestmodels.unpredictable)[1] <- c("metric")
 bestmodels.unpredictable$metric <- as.character(bestmodels.unpredictable$metric) #because the metrics were reading in as factors
 
@@ -73,9 +80,96 @@ bestmodels.unpredictable$metric <- as.character(bestmodels.unpredictable$metric)
 
 hydroCWM$catname <- hydro$catname
 
-plot.quad(hydroCWM)
+hydro.flood.quad <- as.data.frame(cbind(hydroCWM$CWM,
+                                        hydroCWM$CVAnnMRateRise,	
+                                        hydroCWM$CVAnnMRateFall,	
+                                        hydroCWM$HSPeaknorm,	
+                                        hydroCWM$AS20YrARInorm,
+                                        hydroCWM$catname))
+colnames(hydro.flood.quad) <- c("CWM",
+                                "CVAnnMRateRise", 
+                                "CVAnnMRateFall",
+                                "HSPeaknorm",
+                                "catname")
+hydro.flood.quad$catname <- as.factor(hydro.flood.quad$catname)
+
+hydro.flood.exp <- as.data.frame(cbind(hydroCWM$CWM,
+                                 hydroCWM$AS20YrARInorm,
+                                 hydroCWM$catname))
+colnames(hydro.flood.exp) <- c("CWM",
+                               "AS20YrARInorm",
+                               "catname")
+hydro.flood.exp$catname <- as.factor(hydro.flood.exp$catname)
+
+hydro.unpredictable.quad <- as.data.frame(cbind(hydroCWM$CWM,
+                                                hydroCWM$BFI,	
+                                                hydroCWM$CVAnnBFI,	
+                                                hydroCWM$C_MDFM,
+                                                hydroCWM$M_MinM,
+                                                hydroCWM$catname))
+colnames(hydro.unpredictable.quad) <- c("CWM",
+                                 "BFI",
+                                 "CVAnnBFI",
+                                 "C_MDFM",
+                                 "M_MinM",
+                                 "catname")
+hydro.unpredictable.quad$catname <- as.factor(hydro.unpredictable.quad$catname)
+                                            
+hydro.flood.linear <- as.data.frame(cbind(hydroCWM$CWM,
+                                          hydroCWM$LSPeaknorm,
+                                          hydroCWM$M_MDFM,
+                                          hydroCWM$catname))
+                                                
+colnames(hydro.flood.linear) <- c("CWM",
+                                  "LSPeaknorm", 
+                                  "M_MDFM",
+                                  "catname")
+hydro.flood.linear$catname <- as.factor(hydro.flood.linear$catname)
+
+# and all the remainders plotted as quads so I can look at outliers etc.
+
+hydro.nonsignif.quad <- as.data.frame(cbind(hydroCWM$CWM,
+                                            hydroCWM$MDFAnnHSNum,	
+                                            hydroCWM$CVAnnHSNum,	
+                                            hydroCWM$CVAnnHSPeak,	
+                                            hydroCWM$MRateRisenorm,	
+                                            hydroCWM$MRateFallnorm,	
+                                            hydroCWM$MDFAnnZer,	
+                                            hydroCWM$MDFAnnUnder0.1,	
+                                            hydroCWM$LSMeanDur,	
+                                            hydroCWM$MDFAnnLSNum,	
+                                            hydroCWM$CVAnnLSNum,	
+                                            hydroCWM$CVAnnLSPeak,	
+                                            hydroCWM$CVAnnLSMeanDur,	
+                                            hydroCWM$C_MinM,	
+                                            hydroCWM$MA.7daysMinMeannorm,
+                                            hydroCWM$catname)) 
+colnames(hydro.nonsignif.quad) <- c("CWM",
+                                    "MDFAnnHSNum",
+                                    "CVAnnHSNum",
+                                    "CVAnnHSPeak",
+                                    "MRateRisenorm",
+                                    "MRateFallnorm",
+                                    "MDFAnnZer",
+                                    "MDFAnnUnder0.1",
+                                    "LSMeanDur",
+                                    "MDFAnnLSNum",
+                                    "CVAnnLSNum",
+                                    "CVAnnLSPeak",
+                                    "CVAnnLSMeanDur",
+                                    "C_MinM",
+                                    "MA.7days.MinMeannorm",
+                                    "catname")
+hydro.nonsignif.quad$catname <- as.factor(hydro.nonsignif.quad$catname)
+
+plot.quad(hydro.flood.quad, padj)
+plot.exp(hydro.flood.exp)
+plot.quad(hydro.unpredictable.quad)
+plot.linear(hydro.unpredictable.linear)
+plot.quad(hydro.nonsignif.quad)
+
 plot.linear(hydroCWM)
-plot.exp(hydroCWM)
 
-
+## the next thing to do is subset padj according to $bestmodel and use the resulting
+## df as the input df for padj in the function
 
