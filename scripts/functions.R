@@ -69,15 +69,21 @@ plot.quad <- function(df, pvals) {
     p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black") 
     p = p + xlab(hydroname)
     p = p + ylab("AWM wood density (g/cm^3)")
-    p = p + ggtitle(paste("Adj. R2 = ",signif(summary(fit.quad)$adj.r.squared, 5),
- #                         "; p =",signif(summary(fit.quad)$coef[2,4], 5)
-                          "; p =",pvals$quad.padj[i]  ))
+    
+    #  p = p + ggtitle(paste("Adj. R2 = ",signif(summary(fit.quad)$adj.r.squared, 5),
+    #                      "; p =",pvals$quad.padj[i]  ))
+    p = p + annotate("text",                    
+                    x=max(hydro)/1.5, y=0.5,
+                    label=paste("R^2 = ",signif(summary(fit.quad)$r.squared, 5),
+                                "\np.adj =",pvals$quad.padj[i]),
+                    size = 4)
     
     p = p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
                   axis.line = element_line(size=.7, color = "black"),
                   legend.position = "bottom",
                   panel.background = element_blank(),      
-                  plot.title = element_text(size=10),
+                  plot.title = element_text(size=12),
+                  axis.text = element_text(size=12),
                   text = element_text(size=12))   
     
     print(p)
