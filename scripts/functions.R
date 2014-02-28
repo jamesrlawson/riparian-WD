@@ -24,14 +24,41 @@ fitmodels <- function(x) {
 # using a loop allows us to access colnames, where plyr does not
 
 
+
+
+
+#mainDir <- "C:/Users/JLawson/Desktop/stuff/data/analysis/R"
+#subDir <- "TGA all traits/output_seedmass/tp"
+
+#dir.create(file.path(mainDir, subDir), showWarnings = FALSE)
+
+#setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R")
+
+# use sprintf within the jpeg graphics device to add pvals and R2's to our file names  
+
+#jpeg(sprintf("TGA all traits/output_seedmass/tp/tp_%s_p-%s_r2-%s.jpg", k, pvaluerounded, Rsquared), quality = 100, width = 600, height = 500)
+
+
+
+
+
+
 plot.linear <- function(df, pvals) {
+
+  setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
   
   for(i in 1:ncol(df)) {
     hydro <- df[[i]]  
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
-    
+        
     fit.linear <- lm(zCWM ~ hydro, data = df)
     catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
+    
+    padj <- pvals$linear.padj[i]
+    r2 <- signif(summary(fit.linear)$r.squared, 5)
+
+    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
+    #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
     p = p + geom_point(aes(shape = catname), size =3)
@@ -54,7 +81,7 @@ plot.linear <- function(df, pvals) {
                   text = element_text(size=12))   
     
     print(p)
-    
+    dev.off()
   }
 }
 
@@ -67,6 +94,12 @@ plot.quad <- function(df, pvals) {
     
     fit.quad <- lm(zCWM ~ hydro + I(hydro^2), data = df)
     catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
+    
+    padj <- pvals$quad.padj[i]
+    r2 <- signif(summary(fit.quad)$r.squared, 5)
+    
+    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
+    #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
     p = p + geom_point(aes(shape = catname), size =3)
@@ -89,7 +122,7 @@ plot.quad <- function(df, pvals) {
                   text = element_text(size=12))   
     
     print(p)
-    
+    dev.off()
   }
 }
 
@@ -101,6 +134,12 @@ plot.exp <- function(df, pvals) {
     
     fit.exp <- lm(zCWM ~ log10(hydro), data = df)
     catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
+    
+    padj <- pvals$exp.padj[i]
+    r2 <- signif(summary(fit.exp)$r.squared, 5)
+    
+    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
+    #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
     p = p + geom_point(aes(shape = catname), size =3)
@@ -123,6 +162,7 @@ plot.exp <- function(df, pvals) {
                   text = element_text(size=12))   
     #p = p + theme_tufte()
     print(p)
+    dev.off()
     
   }
 }

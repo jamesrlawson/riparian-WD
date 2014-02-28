@@ -183,6 +183,7 @@ hydro.quad.padj <- padj[padj$bestmodel == 2,]
 hydro.exp.padj <- padj[padj$bestmodel == 3,]
 hydro.nonsignif.padj <- padj[padj$bestmodel == 0,]
 
+# plot graphs!
 
 plot.quad(hydro.quad, hydro.quad.padj)
 plot.exp(hydro.exp, hydro.exp.padj)
