@@ -31,9 +31,10 @@ plot.linear <- function(df, pvals) {
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
     fit.linear <- lm(zCWM ~ hydro, data = df)
+    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
     
     p <- qplot(hydro, zCWM, data = df) 
-    p = p + geom_point(aes(shape = catname[1]))
+    p = p + geom_point(aes(shape = catname))
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
     p = p + xlab(hydroname)
@@ -65,9 +66,10 @@ plot.quad <- function(df, pvals) {
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
     fit.quad <- lm(zCWM ~ hydro + I(hydro^2), data = df)
+    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
     
     p <- qplot(hydro, zCWM, data = df) 
-    p = p + geom_point(aes(shape = catname[1]))
+    p = p + geom_point(aes(shape = catname))
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black") 
     p = p + xlab(hydroname)
@@ -98,9 +100,10 @@ plot.exp <- function(df, pvals) {
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
     fit.exp <- lm(zCWM ~ log10(hydro), data = df)
+    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
     
     p <- qplot(hydro, zCWM, data = df) 
-    p = p + geom_point(aes(shape = catname[1]))
+    p = p + geom_point(aes(shape = catname))
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE, col="black") 
     p = p + xlab(hydroname)
@@ -118,7 +121,7 @@ plot.exp <- function(df, pvals) {
                   plot.title = element_text(size=12),
                   axis.text = element_text(size=12),
                   text = element_text(size=12))   
-    p = p + theme_tufte()
+    #p = p + theme_tufte()
     print(p)
     
   }
