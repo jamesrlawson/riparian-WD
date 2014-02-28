@@ -72,7 +72,7 @@ bestmodels.unpredictable$metric <- as.character(bestmodels.unpredictable$metric)
 
 #put catname in because we need it now for our plots
 
-hydroCWM$catname <- hydro$catname
+#hydroCWM$catname <- hydro$catname
 
 # now combine bestmodels with padj
 
@@ -94,10 +94,10 @@ hydro.quad <- as.data.frame(cbind(hydroCWM$CWM,
                                         hydroCWM$BFI,  
                                         hydroCWM$CVAnnBFI,	
                                         hydroCWM$C_MDFM,
-                                        hydroCWM$M_MinM
-                                        hydroCWM$catname)
-                                  )
-colnames(hydro.quad)       <- c("CWM",
+                                        hydroCWM$M_MinM,
+                                        hydro$catname))
+                                  
+colnames(hydro.quad)       <- c("zCWM", # z so that CWM ends up last when sorted alphabetically
                                 "CVAnnMRateRise", 
                                 "CVAnnMRateFall",
                                 "HSPeaknorm",
@@ -106,28 +106,36 @@ colnames(hydro.quad)       <- c("CWM",
                                 "C_MDFM",
                                 "M_MinM",
                                 "catname")
-hydro.quad$catname <- as.factor(hydro.flood.quad$catname)
+#hydro.quad$catname <- as.factor(hydro.quad$catname)
+hydro.quad$catname <- NULL
+
+ #sort columns alphabetically to match subsetting output later on
+
+hydro.quad <- hydro.quad[,order(names(hydro.quad))]
 
 hydro.exp <- as.data.frame(cbind(hydroCWM$CWM,
                                  hydroCWM$AS20YrARInorm,
-                                 hydroCWM$catname))
-colnames(hydro.exp) <- c("CWM",
+                                 hydro$catname))
+colnames(hydro.exp) <-       c("zCWM",
                                "AS20YrARInorm",
                                "catname")
-hydro.exp$catname <- as.factor(hydro.flood.exp$catname)
-
+#hydro.exp$catname <- as.factor(hydro.exp$catname)
+hydro.exp$catname <- NULL
+hydro.exp <- hydro.exp[,order(names(hydro.exp))]
 
                                             
 hydro.linear <- as.data.frame(cbind(hydroCWM$CWM,
-                                          hydroCWM$LSPeaknorm,
-                                          hydroCWM$M_MDFM,
-                                          hydroCWM$catname))
+                                    hydroCWM$LSPeaknorm,
+                                    hydroCWM$M_MDFM,
+                                    hydro$catname))
                                                 
-colnames(hydro.linear) <-       c("CWM",
+colnames(hydro.linear) <-       c("zCWM",
                                   "LSPeaknorm", 
                                   "M_MDFM",
                                   "catname")
-hydro.linear$catname <- as.factor(hydro.linear$catname)
+#hydro.linear$catname <- as.factor(hydro.linear$catname)
+hydro.linear$catname <- NULL
+hydro.linear <- hydro.linear[,order(names(hydro.linear))]
 
 # and all the remainders plotted as quads so I can look at outliers etc.
 
@@ -146,8 +154,8 @@ hydro.nonsignif      <- as.data.frame(cbind(hydroCWM$CWM,
                                             hydroCWM$CVAnnLSMeanDur,	
                                             hydroCWM$C_MinM,	
                                             hydroCWM$MA.7daysMinMeannorm,
-                                            hydroCWM$catname)) 
-colnames(hydro.nonsignif    ) <- c("CWM",
+                                            hydro$catname)) 
+colnames(hydro.nonsignif    ) <- c("zCWM", 
                                     "MDFAnnHSNum",
                                     "CVAnnHSNum",
                                     "CVAnnHSPeak",
@@ -163,13 +171,20 @@ colnames(hydro.nonsignif    ) <- c("CWM",
                                     "C_MinM",
                                     "MA.7days.MinMeannorm",
                                     "catname")
-hydro.nonsignif$catname <- as.factor(hydro.nonsignif$catname)
-
-plot.quad(hydro.quad, padj)
-plot.exp(hydro.exp)
-plot.linear(hydro.linear)
-plot.quad(hydro.nonsignif)
+#hydro.nonsignif$catname <- as.factor(hydro.nonsignif$catname)
+hydro.nonsignif$catname <- NULL
+hydro.nonsignif <- hydro.nonsignif[,order(names(hydro.nonsignif))]
 
 ## the next thing to do is subset padj according to $bestmodel and use the resulting
 ## df as the input df for padj in the function
 
+hydro.linear.padj <- padj[padj$bestmodel == 1,]
+hydro.quad.padj <- padj[padj$bestmodel == 2,]
+hydro.exp.padj <- padj[padj$bestmodel == 3,]
+hydro.nonsignif.padj <- padj[padj$bestmodel == 0,]
+
+
+plot.quad(hydro.quad, hydro.quad.padj)
+plot.exp(hydro.exp, hydro.exp.padj)
+plot.linear(hydro.linear, hydro.linear.padj)
+plot.quad(hydro.nonsignif, hydro.nonsignif.padj)

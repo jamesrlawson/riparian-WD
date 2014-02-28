@@ -23,29 +23,33 @@ fitmodels <- function(x) {
 
 # using a loop allows us to access colnames, where plyr does not
 
-plot.linear <- function(df) {
+
+plot.linear <- function(df, pvals) {
   
   for(i in 1:ncol(df)) {
     hydro <- df[[i]]  
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
-    fit.linear <- lm(CWM ~ hydro, data = df)
+    fit.linear <- lm(zCWM ~ hydro, data = df)
     
-    p <- qplot(hydro, CWM, data = df) 
-    p = p + geom_point(aes(shape = catname))
+    p <- qplot(hydro, zCWM, data = df) 
+    p = p + geom_point(aes(shape = catname[1]))
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
     p = p + xlab(hydroname)
     p = p + ylab("AWM wood density (g/cm^3)")
-    p = p + ggtitle(paste("Adj R2 = ",signif(summary(fit.linear)$adj.r.squared, 5),
-                          "; p =",signif(summary(fit.linear)$coef[2,4], 5)))
+    p = p + annotate("text",                    
+                     x=max(hydro)/1.5, y=0.5,
+                     label=paste("R^2 = ",signif(summary(fit.linear)$r.squared, 5),
+                                 "\np.adj =",pvals$linear.padj[i]),
+                     size = 4)
     
     p = p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
-                  #increase size of axis lines
                   axis.line = element_line(size=.7, color = "black"),
                   legend.position = "bottom",
                   panel.background = element_blank(),      
-                  plot.title = element_text(size=10),
+                  plot.title = element_text(size=12),
+                  axis.text = element_text(size=12),
                   text = element_text(size=12))   
     
     print(p)
@@ -54,24 +58,20 @@ plot.linear <- function(df) {
 }
 
 
-
 plot.quad <- function(df, pvals) {
   
-  for(i in 2:ncol(df)) {
+  for(i in 1:ncol(df)) {
     hydro <- df[[i]]  
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
-    fit.quad <- lm(CWM ~ hydro + I(hydro^2), data = df)
+    fit.quad <- lm(zCWM ~ hydro + I(hydro^2), data = df)
     
-    p <- qplot(hydro, CWM, data = df) 
-    p = p + geom_point(aes(shape = catname))
+    p <- qplot(hydro, zCWM, data = df) 
+    p = p + geom_point(aes(shape = catname[1]))
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black") 
     p = p + xlab(hydroname)
     p = p + ylab("AWM wood density (g/cm^3)")
-    
-    #  p = p + ggtitle(paste("Adj. R2 = ",signif(summary(fit.quad)$adj.r.squared, 5),
-    #                      "; p =",pvals$quad.padj[i]  ))
     p = p + annotate("text",                    
                     x=max(hydro)/1.5, y=0.5,
                     label=paste("R^2 = ",signif(summary(fit.quad)$r.squared, 5),
@@ -91,31 +91,34 @@ plot.quad <- function(df, pvals) {
   }
 }
 
-plot.exp <- function(df) {
+plot.exp <- function(df, pvals) {
   
   for(i in 1:ncol(df)) {
     hydro <- df[[i]]  
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
-    fit.exp <- lm(CWM ~ hydro + log10(hydro), data = df)
+    fit.exp <- lm(zCWM ~ log10(hydro), data = df)
     
-    p <- qplot(hydro, CWM, data = df) 
-    p = p + geom_point(aes(shape = catname))
+    p <- qplot(hydro, zCWM, data = df) 
+    p = p + geom_point(aes(shape = catname[1]))
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE, col="black") 
     p = p + xlab(hydroname)
     p = p + ylab("AWM wood density (g/cm^3)")
-    p = p + ggtitle(paste("Adj. R2 = ",signif(summary(fit.exp)$adj.r.squared, 5),
-                          #                         "; p =",signif(summary(fit.quad)$coef[2,4], 5)
-                          "; p =",padj$quad.padj[i]  ))
+    p = p + annotate("text",                    
+                     x=max(hydro)/1.5, y=0.5,
+                     label=paste("R^2 = ",signif(summary(fit.exp)$r.squared, 5),
+                                 "\np.adj =",pvals$exp.padj[i]),
+                     size = 4)
     
     p = p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
                   axis.line = element_line(size=.7, color = "black"),
                   legend.position = "bottom",
                   panel.background = element_blank(),      
-                  plot.title = element_text(size=10),
+                  plot.title = element_text(size=12),
+                  axis.text = element_text(size=12),
                   text = element_text(size=12))   
-    
+    p = p + theme_tufte()
     print(p)
     
   }
