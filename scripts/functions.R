@@ -173,7 +173,7 @@ stderr <- function(x) sd(x)/sqrt(length(x))
 
 plot.means <- function(df) {
   pd <- position_dodge(.001)
-  png(sprintf("output/figures/categories/%s.png", df), width = 480, height = 480)
+#  png(sprintf("output/figures/categories/%s.png", df), width = 480, height = 480, units="px")
   p <- ggplot(df, aes(x=category, y=mean)) + 
     geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), colour="black", width=.1, position=pd) +
     geom_line(position=pd) +
@@ -184,6 +184,6 @@ plot.means <- function(df) {
     theme_minimal() +
     theme(legend.justification=c(1,0), legend.position=c(1,0)) # Position legend in bottom right
   print(p)
-  dev.off()
+#  dev.off()
   
 }

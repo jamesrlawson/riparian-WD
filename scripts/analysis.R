@@ -198,6 +198,7 @@ WDraw <- read.csv("data/WDraw.csv", header=TRUE)
 cats <- as.data.frame(cbind(hydro$plotID, hydro$category))
 names(cats) <- c("plotID","cats")
 WDraw_cats <- merge(WDraw, cats)
+WDraw_cats$cats <- as.factor(WDraw_cats$cats)
 
 raw_cats.mean <- tapply(WDraw_cats$heart.avg, WDraw_cats$cats, mean)
 raw_cats.stderr <- tapply(WDraw_cats$heart.avg, WDraw_cats$cats, stderr)
@@ -209,15 +210,24 @@ raw_cats.df$labels <- c("Difference in mean wood density between classes (raw va
 
 plot.means(raw_cats.df)
 
+raw_cats.aov <- aov(heart.avg ~ cats, data = WDraw_cats)
+summary(raw_cats.aov)
+TukeyHSD(raw_cats.aov)
+
 # for CWMs
 
 WDCWM <- as.data.frame(cbind("plotID" = hydroCWM$plotID, "cats" = hydroCWM$category, "CWM" = hydroCWM$CWM))
+WDCWM$cats <- as.factor(WDCWM$cats)
 
 CWM_cats.mean <- tapply(WDCWM$CWM, WDCWM$cats, mean)
 CWM_cats.stderr <- tapply(WDCWM$CWM, WDCWM$cats, stderr)
 
 CWM_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = CWM_cats.mean, stderr = CWM_cats.stderr))
 CWM_cats.df$category <- as.factor(CWM_cats.df$category)
-raw_cats.df$labels <- c("Difference in mean wood density between classes (abundance weighted)", "hydrological class", "mean wood density (g/cm^3)")
+CWM_cats.df$labels <- c("Difference in mean wood density between classes (abundance weighted)", "hydrological class", "mean wood density (g/cm^3)")
 
 plot.means(CWM_cats.df)
+
+CWM_cats.aov <- aov(CWM ~ cats, data = WDCWM)
+summary(CWM_cats.aov)
+TukeyHSD(CWM_cats.aov)
