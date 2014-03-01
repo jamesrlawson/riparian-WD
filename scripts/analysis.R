@@ -1,6 +1,6 @@
 library(plyr)
 library(ggplot2)
-
+library(ggbiplot)
 
 source("scripts/functions.R")
 
@@ -208,11 +208,11 @@ raw_cats.df$category <- as.factor(raw_cats.df$category)
 
 raw_cats.df$labels <- c("Difference in mean wood density between classes (raw values)", "hydrological class", "mean wood density (g/cm^3)")
 
-plot.means(raw_cats.df)
-
 raw_cats.aov <- aov(heart.avg ~ cats, data = WDraw_cats)
 summary(raw_cats.aov)
 TukeyHSD(raw_cats.aov)
+
+plot.means(raw_cats.df)
 
 # for CWMs
 
@@ -226,8 +226,42 @@ CWM_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = CWM_cats.mean, st
 CWM_cats.df$category <- as.factor(CWM_cats.df$category)
 CWM_cats.df$labels <- c("Difference in mean wood density between classes (abundance weighted)", "hydrological class", "mean wood density (g/cm^3)")
 
-plot.means(CWM_cats.df)
-
 CWM_cats.aov <- aov(CWM ~ cats, data = WDCWM)
 summary(CWM_cats.aov)
 TukeyHSD(CWM_cats.aov)
+
+plot.means(CWM_cats.df)
+
+########## PCA analysis ###########
+
+# create dataframe of hydro metrics for which we find significant relationships with WD CWMs
+
+hydro.signif <- cbind(hydroCWM["AS20YrARInorm"],
+                      hydroCWM["LSPeaknorm"],
+                      hydroCWM["M_MDFM"],
+                      hydroCWM["BFI"],
+                      hydroCWM["C_MDFM"],
+                      hydroCWM["CVAnnBFI"],
+                      hydroCWM["CVAnnMRateFall"],
+                      hydroCWM["CVAnnMRateRise"],
+                      hydroCWM["HSPeaknorm"],
+                      hydroCWM["M_MinM"])
+
+catname$catnamesfull <- as.factor(c(
+  "unpredictable intermittent",
+  "unpredictable baseflow",
+  "unpredictable baseflow",
+  "unpredictable intermittent",
+  "unpredictable intermittent",
+  "unpredictable baseflow",
+  "stable winter baseflow",
+  "stable winter baseflow",
+  "stable winter baseflow",
+  "stable winter baseflow",
+  "unpredictable baseflow",
+  "unpredictable baseflow",
+  "unpredictable intermittent",
+  "stable winter baseflow",
+  "unpredictable intermittent"))
+                      
+hydro.signif.pca <- prcomp(hydro.signif, scale.=TRUE, centre=TRUE)
