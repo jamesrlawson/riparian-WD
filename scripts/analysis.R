@@ -265,3 +265,5 @@ catname$catnamesfull <- as.factor(c(
   "unpredictable intermittent"))
                       
 hydro.signif.pca <- prcomp(hydro.signif, scale.=TRUE, centre=TRUE)
+
+summary(hydro.signif.pca)

@@ -15,10 +15,10 @@ plot.quad(hydro.nonsignif, hydro.nonsignif.padj)
 plot.means(raw_cats.df)
 plot.means(CWM_cats.df)
 
-# pca (not really worth it's own function...)
+# pca (not really worth it's own function...
 
 g <- ggbiplotshape(hydro.signif.pca, obs.scale = 1, var.scale = 1, 
-              groups = catname$catnamesfull, ellipse = TRUE, circle = TRUE)
+              groups = catname$catnamesfull, ellipse = TRUE)
 g <- g + theme_minimal()
 g <- g + theme(legend.direction = 'horizontal', 
                legend.position = 'bottom')
