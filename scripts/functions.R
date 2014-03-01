@@ -138,8 +138,7 @@ plot.exp <- function(df, pvals) {
     padj <- pvals$exp.padj[i]
     r2 <- signif(summary(fit.exp)$r.squared, 5)
     
-    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
-    #on.exit(dev.off())
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 5.5, height = 3.2)
     
     p <- qplot(hydro, zCWM, data = df) 
     p = p + geom_point(aes(shape = catname), size =3)
@@ -153,16 +152,38 @@ plot.exp <- function(df, pvals) {
                                  "\np.adj =",pvals$exp.padj[i]),
                      size = 4)
     
-    p = p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
-                  axis.line = element_line(size=.7, color = "black"),
+    p = p + theme(panel.grid.major = element_blank(),
+                  axis.line = element_line(size=.2, color = "black"),
                   legend.position = "bottom",
+                  legend.text = element_text(size=8),
+                  legend.title = element_text(size=10),
                   panel.background = element_blank(),      
-                  plot.title = element_text(size=12),
-                  axis.text = element_text(size=12),
-                  text = element_text(size=12))   
+                  axis.text = element_text(size=8),
+                  text = element_text(size=8))   
     #p = p + theme_tufte()
     print(p)
     dev.off()
+   #ggsave(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 50, height = 40, units=c("mm"), p, scale=1)
     
   }
+}
+
+
+stderr <- function(x) sd(x)/sqrt(length(x))
+
+plot.means <- function(df) {
+  pd <- position_dodge(.001)
+  png(sprintf("output/figures/categories/%s.png", df), width = 480, height = 480)
+  p <- ggplot(df, aes(x=category, y=mean)) + 
+    geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), colour="black", width=.1, position=pd) +
+    geom_line(position=pd) +
+    geom_point(position=pd, size=3, shape=21, fill="white") + # 21 is filled circle
+    xlab(df$labels[2]) +
+    ylab(df$labels[3]) +
+    ggtitle(df$labels[1]) +
+    theme_minimal() +
+    theme(legend.justification=c(1,0), legend.position=c(1,0)) # Position legend in bottom right
+  print(p)
+  dev.off()
+  
 }

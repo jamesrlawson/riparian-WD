@@ -189,3 +189,35 @@ plot.quad(hydro.quad, hydro.quad.padj)
 plot.exp(hydro.exp, hydro.exp.padj)
 plot.linear(hydro.linear, hydro.linear.padj)
 plot.quad(hydro.nonsignif, hydro.nonsignif.padj)
+
+### now lets get some graphs for means with error bars for standard error
+
+# for raw data
+
+WDraw <- read.csv("data/WDraw.csv", header=TRUE)
+cats <- as.data.frame(cbind(hydro$plotID, hydro$category))
+names(cats) <- c("plotID","cats")
+WDraw_cats <- merge(WDraw, cats)
+
+raw_cats.mean <- tapply(WDraw_cats$heart.avg, WDraw_cats$cats, mean)
+raw_cats.stderr <- tapply(WDraw_cats$heart.avg, WDraw_cats$cats, stderr)
+
+raw_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = raw_cats.mean, stderr = raw_cats.stderr))
+raw_cats.df$category <- as.factor(raw_cats.df$category)
+
+raw_cats.df$labels <- c("Difference in mean wood density between classes (raw values)", "hydrological class", "mean wood density (g/cm^3)")
+
+plot.means(raw_cats.df)
+
+# for CWMs
+
+WDCWM <- as.data.frame(cbind("plotID" = hydroCWM$plotID, "cats" = hydroCWM$category, "CWM" = hydroCWM$CWM))
+
+CWM_cats.mean <- tapply(WDCWM$CWM, WDCWM$cats, mean)
+CWM_cats.stderr <- tapply(WDCWM$CWM, WDCWM$cats, stderr)
+
+CWM_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = CWM_cats.mean, stderr = CWM_cats.stderr))
+CWM_cats.df$category <- as.factor(CWM_cats.df$category)
+raw_cats.df$labels <- c("Difference in mean wood density between classes (abundance weighted)", "hydrological class", "mean wood density (g/cm^3)")
+
+plot.means(CWM_cats.df)
