@@ -66,7 +66,7 @@ plot.linear <- function(df, pvals) {
     p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
     p <- p + xlab(hydroname)
     p <- p + ylab("AWM wood density (g/cm^3)")
-    p <- p + ylim(0.45, 0.7)
+    p <- p + ylim(0.45, 0.75)
     p <- p + annotate("text",                    
                      x=max(hydro)/1.5, y=0.5,
                      label=paste("R^2 = ",signif(summary(fit.linear)$r.squared, 5),
@@ -107,7 +107,7 @@ plot.quad <- function(df, pvals) {
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black") 
     p <- p + xlab(hydroname)
-    p <- p + ylim(0.45, 0.7)
+    p <- p + ylim(0.45, 0.75)
     p <- p + ylab("AWM wood density (g/cm^3)")
     p <- p + annotate("text",                    
                     x=max(hydro)/1.5, y=0.5,
@@ -140,14 +140,14 @@ plot.exp <- function(df, pvals) {
     padj <- pvals$exp.padj[i]
     r2 <- signif(summary(fit.exp)$r.squared, 5)
     
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 5.5, height = 3.2)
+    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
     
     p <- qplot(hydro, zCWM, data = df) 
     p <- p + geom_point(aes(shape = catname), size =3)
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
     p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE, col="black") 
     p <- p + xlab(hydroname)
-    p <- p + ylim(0.45, 0.7)
+    p <- p + ylim(0.45, 0.75)
     p <- p + ylab("AWM wood density (g/cm^3)")
     p <- p + annotate("text",                    
                      x=max(hydro)/1.5, y=0.5,
