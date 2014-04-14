@@ -322,4 +322,43 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
   return(g)
 }
 
-
+plot.species <- function(df) {
+  
+  setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
+  
+  for(i in 1:ncol(df)) {
+    hydro <- df[[i]]  
+    hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
+    
+    fit.linear <- lm(heart.avg ~ hydro, data = df)
+    
+    pval<- anova(fit.linear)[1,"Pr(>F)"]
+    r2 <- signif(summary(fit.linear)$r.squared, 5)
+    
+    png(sprintf("output/figures/species/%s_p-%s_r2-%s.png", hydroname, pval, r2), width = 600, height = 500)
+    #on.exit(dev.off())
+    
+    p <- qplot(hydro, heart.avg, data = df) 
+    p <- p + geom_point(size =3)
+    p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
+    p <- p + xlab(hydroname)
+    p <- p + ylab("AWM wood density (g/cm^3)")
+    p <- p + ylim(0.45, 0.75)
+    p <- p + annotate("text",                    
+                      x=max(hydro)/1.5, y=0.5,
+                      label=paste("R^2 = ",signif(summary(fit.linear)$r.squared, 5),
+                                  "\npval =",anova(fit.linear)[1,"Pr(>F)"]),
+                      size = 4)
+    
+    p <- p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
+                   axis.line = element_line(size=.7, color = "black"),
+                   legend.position = "bottom",
+                   panel.background = element_blank(),      
+                   plot.title = element_text(size=12),
+                   axis.text = element_text(size=12),
+                   text = element_text(size=12))   
+    
+    print(p)
+    dev.off()
+  }
+}
