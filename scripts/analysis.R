@@ -267,3 +267,56 @@ catname$catnamesfull <- as.factor(c(
 hydro.signif.pca <- prcomp(hydro.signif, scale.=TRUE, centre=TRUE)
 
 summary(hydro.signif.pca)
+
+
+
+
+
+
+
+
+WDraw_hydro <- merge(WDraw, hydro)
+
+WDraw_hydro_tris <- WDraw_hydro[WDraw_hydro$speciesName =="Tristaniopsis laurina",]
+WDraw_hydro_tris$speciesName <- NULL
+WDraw_hydro_tris$catname <- NULL
+WDraw_hydro_tris$category <- NULL
+
+WDraw_hydro_cas <- WDraw_hydro[WDraw_hydro$speciesName =="Casuarina cunninghamiana",]
+WDraw_hydro_cas$speciesName <- NULL
+WDraw_hydro_cas$catname <- NULL
+WDraw_hydro_cas$category <- NULL
+
+WDraw_hydro_lep <- WDraw_hydro[WDraw_hydro$speciesName =="Leptospermum brevipes",]
+WDraw_hydro_lep$speciesName <- NULL
+WDraw_hydro_lep$catname <- NULL
+WDraw_hydro_lep$category <- NULL
+
+WDraw_hydro_aca <- WDraw_hydro[WDraw_hydro$speciesName =="Acacia dealbata",]
+WDraw_hydro_aca$speciesName <- NULL
+WDraw_hydro_aca$catname <- NULL
+WDraw_hydro_aca$category <- NULL
+
+tris <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_tris)
+summary(tris)
+plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_tris)
+
+cas <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_cas)
+summary(cas)
+plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_cas)
+abline(cas)
+
+lep <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_lep)
+summary(lep)
+plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_lep)
+
+aca <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_aca)
+summary(aca)
+plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_aca)
+
+
+plot.species(WDraw_hydro_tris)
+plot.species(WDraw_hydro_cas)
+plot.species(WDraw_hydro_lep)
+plot.species(WDraw_hydro_aca)
+
