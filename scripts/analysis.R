@@ -272,7 +272,7 @@ summary(hydro.signif.pca)
 
 
 
-
+## single species regressions
 
 
 WDraw_hydro <- merge(WDraw, hydro)
@@ -297,26 +297,5 @@ WDraw_hydro_aca$speciesName <- NULL
 WDraw_hydro_aca$catname <- NULL
 WDraw_hydro_aca$category <- NULL
 
-tris <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_tris)
-summary(tris)
-plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_tris)
 
-cas <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_cas)
-summary(cas)
-plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_cas)
-abline(cas)
-
-lep <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_lep)
-summary(lep)
-plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_lep)
-
-aca <- lm(heart.avg ~ CVAnnBFI, data = WDraw_hydro_aca)
-summary(aca)
-plot(heart.avg ~ CVAnnBFI, data = WDraw_hydro_aca)
-
-
-plot.species(WDraw_hydro_tris)
-plot.species(WDraw_hydro_cas)
-plot.species(WDraw_hydro_lep)
-plot.species(WDraw_hydro_aca)
 

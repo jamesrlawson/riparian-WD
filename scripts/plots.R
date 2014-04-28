@@ -26,3 +26,10 @@ g <- g + scale_x_continuous(limits = c(-4, 5))
 
 print(g)
 rm(g)
+
+# generate plots for individual species (this will just dump plots into the working directory, because I'm lazy)
+
+plot.species(WDraw_hydro_tris)
+plot.species(WDraw_hydro_cas)
+plot.species(WDraw_hydro_lep)
+plot.species(WDraw_hydro_aca)
