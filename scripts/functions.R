@@ -24,29 +24,10 @@ fitmodels <- function(x) {
 # using a loop allows us to access colnames, where plyr does not
 
 
-
-
-
-#mainDir <- "C:/Users/JLawson/Desktop/stuff/data/analysis/R"
-#subDir <- "TGA all traits/output_seedmass/tp"
-
-#dir.create(file.path(mainDir, subDir), showWarnings = FALSE)
-
-#setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R")
-
-# use sprintf within the jpeg graphics device to add pvals and R2's to our file names  
-
-#jpeg(sprintf("TGA all traits/output_seedmass/tp/tp_%s_p-%s_r2-%s.jpg", k, pvaluerounded, Rsquared), quality = 100, width = 600, height = 500)
-
-
-
-
-
-
 plot.linear <- function(df, pvals) {
 
   setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
-  
+    
   for(i in 1:ncol(df)) {
     hydro <- df[[i]]  
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
@@ -56,32 +37,27 @@ plot.linear <- function(df, pvals) {
     
     padj <- pvals$linear.padj[i]
     r2 <- signif(summary(fit.linear)$r.squared, 5)
+    
+    label <- substitute(deparse(pvals$figlabel[i]))
 
-    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 6, height = 5)
     #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
     p <- p + geom_point(aes(shape = catname), size =3)
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
-    p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
+    p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.3) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("AWM wood density (g/cm^3)")
+    p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text",                    
-                     x=max(hydro)/1.5, y=0.5,
-                     label=paste("R^2 = ",signif(summary(fit.linear)$r.squared, 5),
-                                 "\np.adj =",pvals$linear.padj[i]),
-                     size = 4)
+    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.70, label = sprintf("%s", pvals$figlabel[i]))  
+    p <- p + theme_bw() 
+    p <- p + theme(legend.position = "none",
+                   axis.title.y = element_text(vjust=0.35),
+                   panel.grid.major = element_blank(), # switch off major gridlines
+                   panel.grid.minor = element_blank())
     
-    p <- p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
-                  axis.line = element_line(size=.7, color = "black"),
-                  legend.position = "bottom",
-                  panel.background = element_blank(),      
-                  plot.title = element_text(size=12),
-                  axis.text = element_text(size=12),
-                  text = element_text(size=12))   
-    
-    print(p)
+    print(p) 
     dev.off()
   }
 }
@@ -99,29 +75,22 @@ plot.quad <- function(df, pvals) {
     padj <- pvals$quad.padj[i]
     r2 <- signif(summary(fit.quad)$r.squared, 5)
     
-    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 6, height = 5)
     #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
     p <- p + geom_point(aes(shape = catname), size =3)
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
-    p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black") 
+    p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black", alpha = 0.3) 
     p <- p + xlab(hydroname)
+    p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + ylab("AWM wood density (g/cm^3)")
-    p <- p + annotate("text",                    
-                    x=max(hydro)/1.5, y=0.5,
-                    label=paste("R^2 = ",signif(summary(fit.quad)$r.squared, 5),
-                                "\np.adj =",pvals$quad.padj[i]),
-                    size = 4)
-    
-    p <- p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
-                  axis.line = element_line(size=.7, color = "black"),
-                  legend.position = "bottom",
-                  panel.background = element_blank(),      
-                  plot.title = element_text(size=12),
-                  axis.text = element_text(size=12),
-                  text = element_text(size=12))   
+    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.70, label = sprintf("%s", pvals$figlabel[i]))  
+    p <- p + theme_bw() 
+    p <- p + theme(legend.position = "none",
+                   axis.title.y = element_text(vjust=0.35),
+                   panel.grid.major = element_blank(), # switch off major gridlines
+                   panel.grid.minor = element_blank())
     
     print(p)
     dev.off()
@@ -140,30 +109,26 @@ plot.exp <- function(df, pvals) {
     padj <- pvals$exp.padj[i]
     r2 <- signif(summary(fit.exp)$r.squared, 5)
     
-    png(sprintf("output/figures/%s_p-%s_r2-%s.png", hydroname, padj, r2), width = 600, height = 500)
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 6, height = 5)
+    #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
     p <- p + geom_point(aes(shape = catname), size =3)
     p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
-    p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE, col="black") 
+    p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE, col="black", alpha = 0.3) 
     p <- p + xlab(hydroname)
+    p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + ylab("AWM wood density (g/cm^3)")
-    p <- p + annotate("text",                    
-                     x=max(hydro)/1.5, y=0.5,
-                     label=paste("R^2 = ",signif(summary(fit.exp)$r.squared, 5),
-                                 "\np.adj =",pvals$exp.padj[i]),
-                     size = 4)
+    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.70, label = sprintf("%s", pvals$figlabel[i]))
+    p <- p + theme_bw() 
+    p <- p + theme(legend.position = "none",
+                   axis.title.y = element_text(hjust=0.35),
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),
+                   panel.grid.major = element_blank(), # switch off major gridlines
+                   panel.grid.minor = element_blank())
     
-    p <- p + theme(panel.grid.major = element_blank(),
-                  axis.line = element_line(size=.2, color = "black"),
-                  legend.position = "bottom",
-                  legend.text = element_text(size=8),
-                  legend.title = element_text(size=10),
-                  panel.background = element_blank(),      
-                  axis.text = element_text(size=8),
-                  text = element_text(size=8))   
-    #p = p + theme_tufte()
+
     print(p)
     dev.off()
    #ggsave(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 50, height = 40, units=c("mm"), p, scale=1)
@@ -174,21 +139,32 @@ plot.exp <- function(df, pvals) {
 
 stderr <- function(x) sd(x)/sqrt(length(x))
 
+
+
 plot.means <- function(df) {
-  pd <- position_dodge(.001)
-#  png(sprintf("output/figures/categories/%s.png", df), width = 480, height = 480, units="px")
-  p <- ggplot(df, aes(x=category, y=mean)) + 
-    geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), colour="black", width=.1, position=pd) +
-    geom_line(position=pd) +
-    geom_point(position=pd, size=3, shape=21, fill="white") + # 21 is filled circle
-    xlab(df$labels[2]) +
-    ylab(df$labels[3]) +
-    scale_y_continuous(limits = c(0.5, 0.7)) +
-    ggtitle(df$labels[1]) +
-    theme_minimal() +
-    theme(legend.justification=c(1,0), legend.position=c(1,0)) # Position legend in bottom right
+   
+  outDir = "output/figures/categories"
+  dir.create(outDir, recursive=TRUE)
+  
+  pdf(sprintf("%s/comparemeans.pdf", outDir), width = 5.5, height = 4.5)
+    
+  p <-ggplot(df, aes(x=category, y=mean)) + 
+      geom_point(stat = "identity", size=3) + 
+      geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), size = 0.1, width=.1) +
+      facet_grid(. ~ datatype) +
+      xlab(df$labels[2]) +
+      ylab(df$labels[3]) +
+      scale_y_continuous(limits = c(0.5, 0.7)) +
+      ggtitle(df$labels[1]) +
+      theme_bw() +
+      theme(legend.justification=c(1,0), 
+            legend.position=c(1,0), # Position legend in bottom right
+            legend.title = element_blank(),
+            panel.grid.major = element_blank(), # switch off major gridlines
+            panel.grid.minor = element_blank() # switch off minor gridlines
+    ) 
   print(p)
-#  dev.off()
+  dev.off()
   
 }
 
@@ -286,10 +262,10 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
   }
   else {
     if (!is.null(df.u$groups)) {
-      g <- g + geom_point(aes(shape = groups), alpha = alpha)
+      g <- g + geom_point(aes(shape = groups, size = 2), alpha = alpha)      
     }
     else {
-      g <- g + geom_point(alpha = alpha)
+      g <- g + geom_point(aes(size=2), alpha = alpha)
     }
   }
   if (!is.null(df.u$groups) && ellipse) {
@@ -313,12 +289,12 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
     names(ell)[1:2] <- c("xvar", "yvar")
     g <- g + geom_path(data = ell, aes(color = groups, group = groups))
   }
-  if (var.axes) {
-    g <- g + geom_text(data = df.v, aes(label = varname,
-                                        x = xvar, y = yvar, angle = angle, hjust = hjust),
-                       color = "black", size = varname.size,
-                       position=position_jitter(h=0.5,w=0))
-  }
+#  if (var.axes) {
+#    g <- g + geom_text(data = df.v, aes(label = varname,
+#                                        x = xvar, y = yvar, angle = angle, hjust = hjust),
+#                       color = "black", size = varname.size,
+#                       position=position_jitter(h=0.5,w=0))
+#  }
   return(g)
 }
 

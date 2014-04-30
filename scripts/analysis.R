@@ -94,8 +94,8 @@ hydro.quad <- as.data.frame(cbind(hydroCWM$CWM,
                                         hydroCWM$BFI,  
                                         hydroCWM$CVAnnBFI,	
                                         hydroCWM$C_MDFM,
-                                        hydroCWM$M_MinM,
-                                        hydro$catname))
+                                        hydroCWM$M_MinM
+                                  ))
                                   
 colnames(hydro.quad)       <- c("zCWM", # z so that CWM ends up last when sorted alphabetically
                                 "CVAnnMRateRise", 
@@ -104,37 +104,33 @@ colnames(hydro.quad)       <- c("zCWM", # z so that CWM ends up last when sorted
                                 "BFI",  
                                 "CVAnnBFI",	
                                 "C_MDFM",
-                                "M_MinM",
-                                "catname")
-#hydro.quad$catname <- as.factor(hydro.quad$catname)
-hydro.quad$catname <- NULL
+                                "M_MinM"
+                                )
 
  #sort columns alphabetically to match subsetting output later on
 
 hydro.quad <- hydro.quad[,order(names(hydro.quad))]
 
 hydro.exp <- as.data.frame(cbind(hydroCWM$CWM,
-                                 hydroCWM$AS20YrARInorm,
-                                 hydro$catname))
+                                 hydroCWM$AS20YrARInorm
+                                 ))
 colnames(hydro.exp) <-       c("zCWM",
-                               "AS20YrARInorm",
-                               "catname")
-#hydro.exp$catname <- as.factor(hydro.exp$catname)
-hydro.exp$catname <- NULL
+                               "AS20YrARInorm"
+                               )
+
 hydro.exp <- hydro.exp[,order(names(hydro.exp))]
 
                                             
 hydro.linear <- as.data.frame(cbind(hydroCWM$CWM,
                                     hydroCWM$LSPeaknorm,
-                                    hydroCWM$M_MDFM,
-                                    hydro$catname))
+                                    hydroCWM$M_MDFM
+                                    ))
                                                 
 colnames(hydro.linear) <-       c("zCWM",
                                   "LSPeaknorm", 
-                                  "M_MDFM",
-                                  "catname")
-#hydro.linear$catname <- as.factor(hydro.linear$catname)
-hydro.linear$catname <- NULL
+                                  "M_MDFM"
+                                  )
+
 hydro.linear <- hydro.linear[,order(names(hydro.linear))]
 
 # and all the remainders plotted as quads so I can look at outliers etc.
@@ -153,8 +149,8 @@ hydro.nonsignif      <- as.data.frame(cbind(hydroCWM$CWM,
                                             hydroCWM$CVAnnLSPeak,	
                                             hydroCWM$CVAnnLSMeanDur,	
                                             hydroCWM$C_MinM,	
-                                            hydroCWM$MA.7daysMinMeannorm,
-                                            hydro$catname)) 
+                                            hydroCWM$MA.7daysMinMeannorm
+                                            )) 
 colnames(hydro.nonsignif    ) <- c("zCWM", 
                                     "MDFAnnHSNum",
                                     "CVAnnHSNum",
@@ -169,10 +165,9 @@ colnames(hydro.nonsignif    ) <- c("zCWM",
                                     "CVAnnLSPeak",
                                     "CVAnnLSMeanDur",
                                     "C_MinM",
-                                    "MA.7days.MinMeannorm",
-                                    "catname")
-#hydro.nonsignif$catname <- as.factor(hydro.nonsignif$catname)
-hydro.nonsignif$catname <- NULL
+                                    "MA.7days.MinMeannorm"
+                                    )
+
 hydro.nonsignif <- hydro.nonsignif[,order(names(hydro.nonsignif))]
 
 ## the next thing to do is subset padj according to $bestmodel and use the resulting
@@ -182,6 +177,13 @@ hydro.linear.padj <- padj[padj$bestmodel == 1,]
 hydro.quad.padj <- padj[padj$bestmodel == 2,]
 hydro.exp.padj <- padj[padj$bestmodel == 3,]
 hydro.nonsignif.padj <- padj[padj$bestmodel == 0,]
+
+# add figure panel labels (a,b,c etc.) to padj, so they can be used in the graph (sloppy but neat...)
+
+hydro.quad.padj$figlabel <- c("a","d","b","a","b","c","e")
+hydro.exp.padj$figlabel <- c("e")
+hydro.linear.padj$figlabel <- c("f","c")
+hydro.nonsignif.padj$figlabel <- c("NA","NA","d","NA","NA","NA","NA","g","NA","NA","NA","NA","NA","NA")
 
 # plot graphs!
 
@@ -206,13 +208,10 @@ raw_cats.stderr <- tapply(WDraw_cats$heart.avg, WDraw_cats$cats, stderr)
 raw_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = raw_cats.mean, stderr = raw_cats.stderr))
 raw_cats.df$category <- as.factor(raw_cats.df$category)
 
-raw_cats.df$labels <- c("Difference in mean wood density between classes (raw values)", "hydrological class", "mean wood density (g/cm^3)")
-
 raw_cats.aov <- aov(heart.avg ~ cats, data = WDraw_cats)
 summary(raw_cats.aov)
 TukeyHSD(raw_cats.aov)
 
-plot.means(raw_cats.df)
 
 # for CWMs
 
@@ -224,13 +223,17 @@ CWM_cats.stderr <- tapply(WDCWM$CWM, WDCWM$cats, stderr)
 
 CWM_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = CWM_cats.mean, stderr = CWM_cats.stderr))
 CWM_cats.df$category <- as.factor(CWM_cats.df$category)
-CWM_cats.df$labels <- c("Difference in mean wood density between classes (abundance weighted)", "hydrological class", "mean wood density (g/cm^3)")
 
 CWM_cats.aov <- aov(CWM ~ cats, data = WDCWM)
 summary(CWM_cats.aov)
 TukeyHSD(CWM_cats.aov)
 
-plot.means(CWM_cats.df)
+
+# bind them together so we cna plot them on the same graph
+
+compareMeans <- rbind(raw_cats.df, CWM_cats.df)
+compareMeans$labels <- c("Differences in mean wood density between classes", "Hydrological class", "Mean wood density (g/cm^3)", "raw values", "abundance-weighted values", "x")
+compareMeans$datatype <- as.factor(c("raw trait \nvalues", "raw trait \nvalues", "raw trait \nvalues", "abundance weighted \nsite means", "abundance weighted \nsite means", "abundance weighted \nsite means"))
 
 ########## PCA analysis ###########
 

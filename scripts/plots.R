@@ -12,20 +12,27 @@ plot.quad(hydro.nonsignif, hydro.nonsignif.padj)
 
 # plot categorical comparisons
 
-plot.means(raw_cats.df)
-plot.means(CWM_cats.df)
+plot.means(compareMeans)
+
 
 # pca (not really worth it's own function...
 
+pdf("output/figures/categories/PCAbiplot.pdf", width = 7, height = 5)
+
 g <- ggbiplotshape(hydro.signif.pca, obs.scale = 1, var.scale = 1, 
-              groups = catname$catnamesfull, ellipse = TRUE)
-g <- g + theme_minimal()
-g <- g + theme(legend.direction = 'horizontal', 
-               legend.position = 'bottom')
+              groups = catname$catnamesfull, ellipse = FALSE)
+g <- g + theme_bw()
+g <- g + theme( 
+               legend.position = 'none',
+               panel.grid.major = element_blank(), # switch off major gridlines
+               panel.grid.minor = element_blank())
 g <- g + scale_x_continuous(limits = c(-4, 5))
+g <- g + scale_y_continuous(limits = c(-2, 3))
 
 print(g)
 rm(g)
+
+dev.off()
 
 # generate plots for individual species (this will just dump plots into the working directory, because I'm lazy)
 
@@ -33,3 +40,10 @@ plot.species(WDraw_hydro_tris)
 plot.species(WDraw_hydro_cas)
 plot.species(WDraw_hydro_lep)
 plot.species(WDraw_hydro_aca)
+
+
+
+
+
+
+
