@@ -40,7 +40,7 @@ plot.linear <- function(df, pvals) {
     
     label <- substitute(deparse(pvals$figlabel[i]))
 
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 6, height = 5)
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
     #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
@@ -50,11 +50,12 @@ plot.linear <- function(df, pvals) {
     p <- p + xlab(hydroname)
     p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.70, label = sprintf("%s", pvals$figlabel[i]))  
+    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.725, label = sprintf("%s", pvals$figlabel[i])) # need sprintf to paste the character object in. took me an afternoon to solve this issue.
     p <- p + theme_bw() 
     p <- p + theme(legend.position = "none",
                    axis.title.y = element_text(vjust=0.35),
-                   panel.grid.major = element_blank(), # switch off major gridlines
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),                   
                    panel.grid.minor = element_blank())
     
     print(p) 
@@ -75,7 +76,7 @@ plot.quad <- function(df, pvals) {
     padj <- pvals$quad.padj[i]
     r2 <- signif(summary(fit.quad)$r.squared, 5)
     
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 6, height = 5)
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
     #on.exit(dev.off())
     
     p <- qplot(hydro, zCWM, data = df) 
@@ -85,11 +86,12 @@ plot.quad <- function(df, pvals) {
     p <- p + xlab(hydroname)
     p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.70, label = sprintf("%s", pvals$figlabel[i]))  
-    p <- p + theme_bw() 
+    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.725, label = sprintf("%s", pvals$figlabel[i]))
+    p <- p + theme_bw()
     p <- p + theme(legend.position = "none",
                    axis.title.y = element_text(vjust=0.35),
-                   panel.grid.major = element_blank(), # switch off major gridlines
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),                   
                    panel.grid.minor = element_blank())
     
     print(p)
@@ -109,24 +111,30 @@ plot.exp <- function(df, pvals) {
     padj <- pvals$exp.padj[i]
     r2 <- signif(summary(fit.exp)$r.squared, 5)
     
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 6, height = 5)
+    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
     #on.exit(dev.off())
     
-    p <- qplot(hydro, zCWM, data = df) 
-    p <- p + geom_point(aes(shape = catname), size =3)
-    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
-    p <- p + stat_smooth(method = "lm", formula = y ~ log10(x), se=TRUE, col="black", alpha = 0.3) 
+    df$hydro <- hydro
+    df$catname <- catname
+    
+    p <- ggplot(df, aes(x = hydro, y = zCWM))
+    p <- p + geom_point(aes(shape = catname), size = 1)
+
+#    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
+    p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ log10(x), se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
     p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.70, label = sprintf("%s", pvals$figlabel[i]))
+    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.725, label = sprintf("%s", pvals$figlabel[i]), size = 2)
     p <- p + theme_bw() 
+    p <- p + theme_set(theme_bw(base_size = 8))
     p <- p + theme(legend.position = "none",
+                   axis.text = element_text(size = rel(0.8)),
                    axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
                    panel.border = element_blank(),
-                   panel.grid.major = element_blank(), # switch off major gridlines
-                   panel.grid.minor = element_blank())
+                   panel.grid.minor = element_blank()
+              )
     
 
     print(p)

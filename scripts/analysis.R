@@ -180,10 +180,10 @@ hydro.nonsignif.padj <- padj[padj$bestmodel == 0,]
 
 # add figure panel labels (a,b,c etc.) to padj, so they can be used in the graph (sloppy but neat...)
 
-hydro.quad.padj$figlabel <- c("a","d","b","a","b","c","e")
-hydro.exp.padj$figlabel <- c("e")
-hydro.linear.padj$figlabel <- c("f","c")
-hydro.nonsignif.padj$figlabel <- c("NA","NA","d","NA","NA","NA","NA","g","NA","NA","NA","NA","NA","NA")
+hydro.quad.padj$figlabel <- c("(a)","(d)","(b)","(a)","(b)","(c)","(e)")
+hydro.exp.padj$figlabel <- c("(e)")
+hydro.linear.padj$figlabel <- c("(f)","(c)")
+hydro.nonsignif.padj$figlabel <- c("NA","NA","(d)","NA","NA","NA","NA","(g)","NA","NA","NA","NA","NA","NA")
 
 # plot graphs!
 
