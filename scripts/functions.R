@@ -43,20 +43,25 @@ plot.linear <- function(df, pvals) {
     pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
     #on.exit(dev.off())
     
-    p <- qplot(hydro, zCWM, data = df) 
-    p <- p + geom_point(aes(shape = catname), size =3)
-    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
-    p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.3) 
+    df$hydro <- hydro
+    df$catname <- catname
+    
+    p <- ggplot(df, aes(x = hydro, y = zCWM))
+    p <- p + geom_point(aes(shape = catname), size = 2)
+    p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
+    p <- p + ylab("Mean wood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.725, label = sprintf("%s", pvals$figlabel[i])) # need sprintf to paste the character object in. took me an afternoon to solve this issue.
+    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
     p <- p + theme_bw() 
+    p <- p + theme_set(theme_bw(base_size = 8))
     p <- p + theme(legend.position = "none",
-                   axis.title.y = element_text(vjust=0.35),
+                   axis.text = element_text(size = rel(0.8)),
+                   axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),                   
-                   panel.grid.minor = element_blank())
+                   panel.border = element_blank(),
+                   panel.grid.minor = element_blank()
+    )
     
     print(p) 
     dev.off()
@@ -78,21 +83,25 @@ plot.quad <- function(df, pvals) {
     
     pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
     #on.exit(dev.off())
+    df$hydro <- hydro
+    df$catname <- catname
     
-    p <- qplot(hydro, zCWM, data = df) 
-    p <- p + geom_point(aes(shape = catname), size =3)
-    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
-    p <- p + stat_smooth(method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black", alpha = 0.3) 
+    p <- ggplot(df, aes(x = hydro, y = zCWM))
+    p <- p + geom_point(aes(shape = catname), size = 2)
+    p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
+    p <- p + ylab("Mean wood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.725, label = sprintf("%s", pvals$figlabel[i]))
-    p <- p + theme_bw()
+    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
+    p <- p + theme_bw() 
+    p <- p + theme_set(theme_bw(base_size = 8))
     p <- p + theme(legend.position = "none",
-                   axis.title.y = element_text(vjust=0.35),
+                   axis.text = element_text(size = rel(0.8)),
+                   axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),                   
-                   panel.grid.minor = element_blank())
+                   panel.border = element_blank(),
+                   panel.grid.minor = element_blank()
+    )
     
     print(p)
     dev.off()
@@ -118,14 +127,12 @@ plot.exp <- function(df, pvals) {
     df$catname <- catname
     
     p <- ggplot(df, aes(x = hydro, y = zCWM))
-    p <- p + geom_point(aes(shape = catname), size = 1)
-
-#    p <- p + scale_shape_discrete(name = "Hydrological \n class", labels = c("stable winter baseflow", "unpredictable baseflow", "unpredictable intermittent"))
+    p <- p + geom_point(aes(shape = catname), size = 2)
     p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ log10(x), se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Abundance weighted mean \nwood density (g/cm^3)")
+    p <- p + ylab("Mean wood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = max(hydro) * 0.1, y = 0.725, label = sprintf("%s", pvals$figlabel[i]), size = 2)
+    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
     p <- p + theme_bw() 
     p <- p + theme_set(theme_bw(base_size = 8))
     p <- p + theme(legend.position = "none",
@@ -152,12 +159,12 @@ stderr <- function(x) sd(x)/sqrt(length(x))
 plot.means <- function(df) {
    
   outDir = "output/figures/categories"
-  dir.create(outDir, recursive=TRUE)
+  dir.create(outDir, recursive=TRUE, showWarnings = FALSE)
   
-  pdf(sprintf("%s/comparemeans.pdf", outDir), width = 5.5, height = 4.5)
+  pdf(sprintf("%s/comparemeans.pdf", outDir), width = 4.29, height = 2.329)
     
   p <-ggplot(df, aes(x=category, y=mean)) + 
-      geom_point(stat = "identity", size=3) + 
+      geom_point(stat = "identity", size=2) + 
       geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), size = 0.1, width=.1) +
       facet_grid(. ~ datatype) +
       xlab(df$labels[2]) +
@@ -165,12 +172,15 @@ plot.means <- function(df) {
       scale_y_continuous(limits = c(0.5, 0.7)) +
       ggtitle(df$labels[1]) +
       theme_bw() +
-      theme(legend.justification=c(1,0), 
-            legend.position=c(1,0), # Position legend in bottom right
-            legend.title = element_blank(),
-            panel.grid.major = element_blank(), # switch off major gridlines
-            panel.grid.minor = element_blank() # switch off minor gridlines
-    ) 
+      theme_set(theme_bw(base_size = 8)) +
+      theme(legend.position = "none",
+                   axis.text = element_text(size = rel(0.8)),
+                   axis.title.y = element_text(hjust=0.35),
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   strip.background = element_blank()
+            )
   print(p)
   dev.off()
   
@@ -270,10 +280,10 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
   }
   else {
     if (!is.null(df.u$groups)) {
-      g <- g + geom_point(aes(shape = groups, size = 2), alpha = alpha)      
+      g <- g + geom_point(aes(shape = groups, size = 1), alpha = alpha)      
     }
     else {
-      g <- g + geom_point(aes(size=2), alpha = alpha)
+      g <- g + geom_point(aes(size=1), alpha = alpha)
     }
   }
   if (!is.null(df.u$groups) && ellipse) {
@@ -306,7 +316,8 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
   return(g)
 }
 
-plot.species <- function(df) {
+
+plot.species <- function(df, species) {
   
   setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
   
@@ -315,34 +326,39 @@ plot.species <- function(df) {
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
     fit.linear <- lm(heart.avg ~ hydro, data = df)
+    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
     
     pval<- anova(fit.linear)[1,"Pr(>F)"]
     r2 <- signif(summary(fit.linear)$r.squared, 5)
     
-    png(sprintf("output/figures/species/%s_p-%s_r2-%s.png", hydroname, pval, r2), width = 600, height = 500)
+    sp = deparse(substitute(species))
+    
+    outDir = sprintf("output/figures/species/%s", sp)
+    dir.create(outDir, recursive=TRUE)
+    
+        
+    pdf(sprintf("%s/%s_p-%s_r2-%s.pdf", outDir, hydroname, pval, r2), width = 2.795, height = 2.329)
     #on.exit(dev.off())
     
-    p <- qplot(hydro, heart.avg, data = df) 
-    p <- p + geom_point(size =3)
-    p <- p + stat_smooth(method = "lm", formula = y ~ x, se=TRUE, col="black") 
+    df$hydro <- hydro
+    
+    p <- ggplot(df, aes(x = hydro, y = heart.avg))
+    p <- p + geom_point(ysize = 2)
+    p <- p + stat_smooth(size = 0.2, method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("AWM wood density (g/cm^3)")
+    p <- p + ylab("Mean wood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text",                    
-                      x=max(hydro)/1.5, y=0.5,
-                      label=paste("R^2 = ",signif(summary(fit.linear)$r.squared, 5),
-                                  "\npval =",anova(fit.linear)[1,"Pr(>F)"]),
-                      size = 4)
+    p <- p + theme_bw() 
+    p <- p + theme_set(theme_bw(base_size = 8))
+    p <- p + theme(legend.position = "none",
+                   axis.text = element_text(size = rel(0.8)),
+                   axis.title.y = element_text(hjust=0.35),
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),
+                   panel.grid.minor = element_blank()
+    )
     
-    p <- p + theme(panel.grid.major = element_line(size = .5, color = "grey"),
-                   axis.line = element_line(size=.7, color = "black"),
-                   legend.position = "bottom",
-                   panel.background = element_blank(),      
-                   plot.title = element_text(size=12),
-                   axis.text = element_text(size=12),
-                   text = element_text(size=12))   
-    
-    print(p)
+    print(p) 
     dev.off()
   }
 }
