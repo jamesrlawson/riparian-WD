@@ -317,7 +317,7 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
 }
 
 
-plot.species <- function(df, species) {
+plot.species <- function(df, species, labels) {
   
   setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
   
@@ -331,13 +331,14 @@ plot.species <- function(df, species) {
     pval<- anova(fit.linear)[1,"Pr(>F)"]
     r2 <- signif(summary(fit.linear)$r.squared, 5)
     
+    stats <- cbind(as.character(hydroname), pval, r2)
+    
     sp = deparse(substitute(species))
-    
-    outDir = sprintf("output/figures/species/%s", sp)
-    dir.create(outDir, recursive=TRUE)
-    
         
-    pdf(sprintf("%s/%s_p-%s_r2-%s.pdf", outDir, hydroname, pval, r2), width = 2.795, height = 2.329)
+    outDir = sprintf("output/figures/species/%s", sp)
+    dir.create(outDir, recursive=TRUE, showWarnings = FALSE)
+                
+    pdf(sprintf("%s/%s.pdf", outDir, hydroname), width = 2.795, height = 2.329)
     #on.exit(dev.off())
     
     df$hydro <- hydro
@@ -348,6 +349,7 @@ plot.species <- function(df, species) {
     p <- p + xlab(hydroname)
     p <- p + ylab("Mean wood density (g/cm^3)")
     p <- p + ylim(0.45, 0.75)
+    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", labels[i]), size = 3)
     p <- p + theme_bw() 
     p <- p + theme_set(theme_bw(base_size = 8))
     p <- p + theme(legend.position = "none",
@@ -361,4 +363,31 @@ plot.species <- function(df, species) {
     print(p) 
     dev.off()
   }
+  
 }
+
+fitspecies <- function(hydro, df, species) {
+  
+  fit.linear  <- lm(heart.avg ~ hydro, data = df)
+  fit.quad    <- lm(heart.avg ~ hydro + I(hydro ^2), data = df)  
+#  fit.exp     <- lm(heart.avg ~ log10(hydro), subset = hydro > 0, data = df) # THIS IS THE LINE THAT HANDLES INF's!
+  
+  # p-values
+  linear.pval <- anova(fit.linear)[1,"Pr(>F)"]
+  quad.pval   <- anova(fit.quad)[1,"Pr(>F)"]
+#  exp.pval    <- anova(fit.exp)[1,"Pr(>F)"]
+  
+  # r-squared
+  linear.r2   <- summary(fit.linear)$r.squared
+  quad.r2     <- summary(fit.quad)$r.squared
+#  exp.r2      <- summary(fit.exp)$r.squared  
+  
+  
+  fitspecies.df <- cbind(linear.pval, linear.r2, quad.pval, quad.r2)
+  
+  sp = deparse(substitute(species))
+  
+  write.table(fitspecies.df, file=sprintf("output/figures/species/%s/stats.csv", sp), append=TRUE, sep=",", col.names=FALSE, row.names=FALSE)
+  
+}
+

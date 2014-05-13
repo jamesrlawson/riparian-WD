@@ -40,14 +40,101 @@ dev.off()
 
 # generate plots for individual species (this will just dump plots into the working directory, because I'm lazy)
 
-plot.species(WDraw_hydro_tris, trilau)
-plot.species(WDraw_hydro_cas, cascun)
-plot.species(WDraw_hydro_lep, lepbre)
-plot.species(WDraw_hydro_aca, acadeb)
+acadeb <- data.frame()
 
+plot.species(WDraw_hydro_aca, acadea, labels = c(
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA",
+                                                  "a",
+                                                  "NA",
+                                                  "NA",
+                                                  "NA")
+   )                                               
 
+plot.species(WDraw_hydro_tris, trilau, labels = c(
+                                                  "NA",
+                                                  "NA",
+                                                  "a",
+                                                 "b",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA")                                                 
+  )
+  
+plot.species(WDraw_hydro_cas, cascun, labels = c(
+                                                "NA",
+                                                "NA",
+                                                "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "a",
+                                                 "NA",
+                                                 "b",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA",
+                                                 "c",
+                                                 "NA",
+                                                 "NA",
+                                                 "NA")
+             )
 
+ldply(WDraw_hydro_tris, fitspecies, WDraw_hydro_tris, trilau)
+ldply(WDraw_hydro_cas, fitspecies, WDraw_hydro_cas, cascun)
+ldply(WDraw_hydro_lep, fitspecies, WDraw_hydro_lep, lepbre)
+ldply(WDraw_hydro_aca, fitspecies, WDraw_hydro_aca, acadea)
 
-
+test <- lm(heart.avg ~ MRateRisenorm, data = WDraw_hydro_aca)
+summary(test)
 
 
