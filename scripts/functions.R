@@ -50,7 +50,7 @@ plot.linear <- function(df, pvals) {
     p <- p + geom_point(aes(shape = catname), size = 2)
     p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Mean wood density (g/cm^3)")
+    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
     p <- p + ylim(0.45, 0.75)
     p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
     p <- p + theme_bw() 
@@ -60,7 +60,9 @@ plot.linear <- function(df, pvals) {
                    axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
                    panel.border = element_blank(),
-                   panel.grid.minor = element_blank()
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.2, color = "black")
     )
     
     print(p) 
@@ -90,7 +92,7 @@ plot.quad <- function(df, pvals) {
     p <- p + geom_point(aes(shape = catname), size = 2)
     p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Mean wood density (g/cm^3)")
+    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
     p <- p + ylim(0.45, 0.75)
     p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
     p <- p + theme_bw() 
@@ -100,7 +102,9 @@ plot.quad <- function(df, pvals) {
                    axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
                    panel.border = element_blank(),
-                   panel.grid.minor = element_blank()
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.2, color = "black")
     )
     
     print(p)
@@ -130,7 +134,7 @@ plot.exp <- function(df, pvals) {
     p <- p + geom_point(aes(shape = catname), size = 2)
     p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ log10(x), se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Mean wood density (g/cm^3)")
+    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
     p <- p + ylim(0.45, 0.75)
     p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
     p <- p + theme_bw() 
@@ -140,7 +144,9 @@ plot.exp <- function(df, pvals) {
                    axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
                    panel.border = element_blank(),
-                   panel.grid.minor = element_blank()
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.2, color = "black")
               )
     
 
@@ -168,9 +174,8 @@ plot.means <- function(df) {
       geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), size = 0.1, width=.1) +
       facet_grid(. ~ datatype) +
       xlab(df$labels[2]) +
-      ylab(df$labels[3]) +
+      ylab(expression(paste("Mean wood density ", "(g / ", cm^-3,))) +
       scale_y_continuous(limits = c(0.5, 0.7)) +
-      ggtitle(df$labels[1]) +
       theme_bw() +
       theme_set(theme_bw(base_size = 8)) +
       theme(legend.position = "none",
@@ -179,12 +184,47 @@ plot.means <- function(df) {
                    axis.title.x = element_text(vjust=0.35),
                    panel.border = element_blank(),
                    panel.grid.minor = element_blank(),
-                   strip.background = element_blank()
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.7, color = "black")
             )
   print(p)
   dev.off()
   
 }
+
+plot.means2 <- function(df) {
+  
+  outDir = "output/figures/categories"
+  dir.create(outDir, recursive=TRUE, showWarnings = FALSE)
+  
+  dfname = deparse(substitute(df))
+  
+  pdf(sprintf("%s/%s.pdf", outDir, dfname), width = 4.29, height = 2.329)
+  
+  p <-ggplot(df, aes(x=category, y=mean)) + 
+    geom_point(stat = "identity", size=2) + 
+    geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), size = 0.1, width=.1) +
+    xlab(df$labels[1]) +
+    ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")"))) +
+     annotate("text", x = 0.7, y = 0.69, label = df$labels[2], size = 3) +  
+    scale_y_continuous(limits = c(0.5, 0.7)) +
+    theme_bw() +
+    theme_set(theme_bw(base_size = 8)) +
+    theme(legend.position = "none",
+          axis.text = element_text(size = rel(0.8)),
+          axis.title.y = element_text(hjust=0.35),
+          axis.title.x = element_text(vjust=0.35),
+          panel.border = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
+          axis.line = element_line(size=.2, color = "black"),
+          strip.background = element_blank()
+    )
+  print(p)
+  dev.off()
+  
+}
+
 
 ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
                           obs.scale = 1 - scale, var.scale = scale, groups = NULL,
@@ -347,7 +387,7 @@ plot.species <- function(df, species, labels) {
     p <- p + geom_point(ysize = 2)
     p <- p + stat_smooth(size = 0.2, method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab("Mean wood density (g/cm^3)")
+    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
     p <- p + ylim(0.45, 0.75)
     p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", labels[i]), size = 3)
     p <- p + theme_bw() 
@@ -357,7 +397,9 @@ plot.species <- function(df, species, labels) {
                    axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
                    panel.border = element_blank(),
-                   panel.grid.minor = element_blank()
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.2, color = "black")
     )
     
     print(p) 

@@ -180,10 +180,15 @@ hydro.nonsignif.padj <- padj[padj$bestmodel == 0,]
 
 # add figure panel labels (a,b,c etc.) to padj, so they can be used in the graph (sloppy but neat...)
 
-hydro.quad.padj$figlabel <- c("(a)","(d)","(b)","(a)","(b)","(c)","(e)")
-hydro.exp.padj$figlabel <- c("(e)")
-hydro.linear.padj$figlabel <- c("(f)","(c)")
-hydro.nonsignif.padj$figlabel <- c("NA","NA","(d)","NA","NA","NA","NA","(g)","NA","NA","NA","NA","NA","NA")
+#hydro.quad.padj$figlabel <- c("(a)","(d)","(b)","(a)","(b)","(c)","(e)")
+#hydro.exp.padj$figlabel <- c("(e)")
+#hydro.linear.padj$figlabel <- c("(f)","(c)")
+#hydro.nonsignif.padj$figlabel <- c("NA","NA","(d)","NA","NA","NA","NA","(g)","NA","NA","NA","NA","NA","NA")
+
+hydro.quad.padj$figlabel <- c("(a)","(c)","(e)","(e)","(d)","(a)","(d)")
+hydro.exp.padj$figlabel <- c("(c)")
+hydro.linear.padj$figlabel <- c("(f)","(b)")
+hydro.nonsignif.padj$figlabel <- c("NA","NA","(b)","NA","NA","NA","NA","(g)","NA","NA","NA","NA","NA","NA")
 
 # plot graphs!
 
@@ -207,6 +212,7 @@ raw_cats.stderr <- tapply(WDraw_cats$heart.avg, WDraw_cats$cats, stderr)
 
 raw_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = raw_cats.mean, stderr = raw_cats.stderr))
 raw_cats.df$category <- as.factor(raw_cats.df$category)
+raw_cats.df$labels <- c("Hydrological class", "(b)", "x")
 
 raw_cats.aov <- aov(heart.avg ~ cats, data = WDraw_cats)
 summary(raw_cats.aov)
@@ -223,17 +229,19 @@ CWM_cats.stderr <- tapply(WDCWM$CWM, WDCWM$cats, stderr)
 
 CWM_cats.df <- as.data.frame(cbind("category"=c(1,2,3), mean = CWM_cats.mean, stderr = CWM_cats.stderr))
 CWM_cats.df$category <- as.factor(CWM_cats.df$category)
+CWM_cats.df$labels <- c("Hydrological class", "(a)", "x") # x is a placeholder
+
 
 CWM_cats.aov <- aov(CWM ~ cats, data = WDCWM)
 summary(CWM_cats.aov)
 TukeyHSD(CWM_cats.aov)
 
 
-# bind them together so we cna plot them on the same graph
+## bind them together so we can plot them on the same graph (vetoed by Michelle)
 
-compareMeans <- rbind(raw_cats.df, CWM_cats.df)
-compareMeans$labels <- c("Differences in mean wood density between classes", "Hydrological class", "Mean wood density (g/cm^3)", "raw values", "abundance-weighted values", "x")
-compareMeans$datatype <- as.factor(c("raw trait \nvalues", "raw trait \nvalues", "raw trait \nvalues", "abundance weighted \nsite means", "abundance weighted \nsite means", "abundance weighted \nsite means"))
+#compareMeans <- rbind(raw_cats.df, CWM_cats.df)
+#compareMeans$labels <- c("Differences in mean wood density between classes", "Hydrological class", "Mean wood density (g/cm^3)", "(a)", "(b)", "x")
+#compareMeans$datatype <- as.factor(c("raw trait \nvalues", "raw trait \nvalues", "raw trait \nvalues", "abundance weighted \nsite means", "abundance weighted \nsite means", "abundance weighted \nsite means"))
 
 ########## PCA analysis ###########
 
