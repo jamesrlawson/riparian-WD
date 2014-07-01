@@ -4,7 +4,28 @@ library(ggbiplot)
 
 source("scripts/functions.R")
 
-CWM <- read.csv("data/CWM.csv", header=TRUE)
+# calculate CWMs from abundance and trait data
+
+WDdata <- read.csv("data/WDdata.csv", header=TRUE)
+
+getCWM <- function(df, number) {
+  x <- subset(df, plot == number)
+  weighted.mean(x$WD, x$abund)
+}
+
+
+CWM <- data.frame()
+
+for(i in 1:15) {
+  
+  x <- data.frame(getCWM(WDdata, i))
+  CWM <- rbind(y,x) 
+}
+
+colnames(CWM) <- c("CWM", "plotID", "cats")
+
+# import hydrological data
+
 hydro <- read.csv("data/hydro.csv", header=TRUE)
 
 hydroCWM <- merge(hydro, CWM)
@@ -69,10 +90,6 @@ bestmodels.unpredictable <- as.data.frame(rownames(unpredictablemodels))
 bestmodels.unpredictable$bestmodel <- c(0,0,0,0,0,0,0,2,2,2,1,0,2,1,0)
 colnames(bestmodels.unpredictable)[1] <- c("metric")
 bestmodels.unpredictable$metric <- as.character(bestmodels.unpredictable$metric) #because the metrics were reading in as factors
-
-#put catname in because we need it now for our plots
-
-#hydroCWM$catname <- hydro$catname
 
 # now combine bestmodels with padj
 
@@ -236,14 +253,7 @@ CWM_cats.aov <- aov(CWM ~ cats, data = WDCWM)
 summary(CWM_cats.aov)
 TukeyHSD(CWM_cats.aov)
 
-
-## bind them together so we can plot them on the same graph (vetoed by Michelle)
-
-#compareMeans <- rbind(raw_cats.df, CWM_cats.df)
-#compareMeans$labels <- c("Differences in mean wood density between classes", "Hydrological class", "Mean wood density (g/cm^3)", "(a)", "(b)", "x")
-#compareMeans$datatype <- as.factor(c("raw trait \nvalues", "raw trait \nvalues", "raw trait \nvalues", "abundance weighted \nsite means", "abundance weighted \nsite means", "abundance weighted \nsite means"))
-
-########## PCA analysis ###########
+########## PCA  ###########
 
 # create dataframe of hydro metrics for which we find significant relationships with WD CWMs
 

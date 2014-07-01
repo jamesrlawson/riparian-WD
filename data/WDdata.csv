@@ -1,0 +1,70 @@
+plot,species,abund,WD
+1,Abrophyllum ornans,0.110260337,0.601603758
+1,Acmena smithii,0.436447167,0.771117393
+1,Ceratopetalum apetalum,0.088820827,0.499899061
+1,Cryptocarya glaucesens,0.052067381,0.496343742
+1,Doryphora sassafras,0.075038285,0.376812554
+1,Tristaniopsis laurina,0.130168453,0.575187964
+1,Waterhousea floribunda,0.10719755,0.542954174
+2,Tristaniopsis laurina,1,0.66140655
+3,Acacia mearnsii,0.01312336,0.600985711
+3,Acacia melanoxylon,0.072178478,0.416440093
+3,Eucalyptus viminalis,0.380577428,0.698733735
+3,Leptospermum brevipes,0.200787402,0.700289744
+3,Pomaderris aspera,0.333333333,0.563386143
+4,Acacia floribunda,0.241610738,0.580556686
+4,Bursaria spinosa ,0.020134228,0.650078892
+4,Casuarina cunninghamiana,0.604026846,0.643369914
+4,Eucalyptus cypellocarpa,0.134228188,0.623867961
+5,Acacia floribunda,0.142678348,0.523497635
+5,Backhousia myrtifolia,0.28660826,0.820059734
+5,Casuarina cunninghamiana,0.262828536,0.692669086
+5,Eucalyptus elata,0.042553191,0.502816615
+5,Tristaniopsis laurina,0.265331665,0.645716352
+6,Acacia floribunda,0.193467337,0.480008289
+6,Acacia mearnsii,0.035175879,0.642039888
+6,Callistemon subulatus,0.040201005,0.642039888
+6,Casuarina cunninghamiana,0.384422111,0.485513009
+6,Leptospermum brevipes,0.346733668,0.772674252
+7,Acacia boormanii,0.148984199,0.503041879
+7,Acacia dealbata,0.361173815,0.455614795
+7,Acacia melanoxylon,0.013544018,0.497392285
+7,Eucalyptus rubida,0.476297968,0.440198065
+8,Acacia dealbata,0.074468085,0.553125384
+8,Acacia melanoxylon,0.159574468,0.516140745
+8,Coprosma quadrifida,0.10212766,0.485016435
+8,Eucalyptus camphora subsp. humeana,0.404255319,0.426201226
+8,Leptospermum brevipes,0.128723404,0.678543674
+8,Melicytus dentatus,0.041489362,0.541547022
+8,Pomaderris aspera,0.089361702,0.56921463
+9,Acacia dealbata,0.764346764,0.520407106
+9,Eucalyptus radiata,0.181929182,0.565362602
+9,Eucalyptus viminalis,0.041514042,0.605338431
+9,Leptospermum grandifolium,0.012210012,0.651526474
+10,Eucalyptus camphora subsp. humeana,0.154545455,0.573141475
+10,Eucalyptus stellulata,0.290909091,0.63697796
+10,Leptospermum brevipes,0.554545455,0.696607157
+11,Acacia irrorata,0.263157895,0.419941579
+11,Casuarina cunninghamiana,0.406698565,0.590095613
+11,Eucalyptus amplifolia,0.23923445,0.785769362
+11,Notelaea microcarpa var. microcarpa,0.090909091,0.638719277
+12,Angophora subvelutina,0.12455516,0.658192325
+12,Casuarina cunninghamiana,0.284697509,0.649355341
+12,Eucalyptus tereticornis,0.590747331,0.713995475
+13,Acacia leiocalyx subsp. leiocalyx,0.067851373,0.569275537
+13,Alphitonia excelsa,0.18901454,0.725166841
+13,Casuarina glauca,0.16720517,0.60140898
+13,Duboisia myoporoides,0.070274637,0.414430689
+13,Lophostemon suaveolens,0.253634895,0.577025052
+13,Melaleuca quinquenervia,0.090468498,0.751375108
+13,Syzygium oleosum,0.064620355,0.58133195
+13,Tree (Sportsmans 57),0.096930533,0.612402056
+14,Acacia dealbata,0.163604549,0.452091876
+14,Acacia pravissima,0.393700787,0.624416686
+14,Eucalyptus radiata,0.132983377,0.5906246
+14,Eucalyptus viminalis,0.309711286,0.549681222
+15,Acmena smithii,0.215885947,0.658186341
+15,Commersonia fraseri,0.224032587,0.371790888
+15,Eucalyptus resinifera,0.193482688,0.599707427
+15,Eucalyptus tereticornis,0.285132383,0.737352572
+15,Glochidion ferdinandi var. ferdinandi,0.081466395,0.665265627

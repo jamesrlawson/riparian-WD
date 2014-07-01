@@ -1,0 +1,457 @@
+plotID,stratum,species,avgcover
+1,groundcover,Pittosporum spinescens,1
+1,groundcover,Doodia aspera,9.6
+1,groundcover,Adiantum hispidulum,1.2
+1,groundcover,Gymnostachys anceps,1.2
+1,groundcover,Lomandra longifolia,4
+1,groundcover,Carex longebrachiata,1.6
+1,groundcover,Commelina cyanea,0
+1,groundcover,Eustrephus latifolius,1.8
+1,groundcover,"tree seedlings (C. apetalum, T. laurina, A. smithii)",6
+1,shrub,Guioa semiglauca,1.2
+1,shrub,Pittosporum spinescens,1.8
+1,shrub,Cryptocarya glaucescens,6.8
+1,shrub,Doryphora sassafras,4.4
+1,shrub,Acmena smithii,15.4
+1,shrub,Ceratopetalum apetalum,8.6
+1,shrub,Tristaniopsis laurina,2
+1,shrub,Abrophyllum ornans,9.4
+1,shrub,Waterhousea floribunda,4
+1,shrub,Neolitsea dealbata,0.2
+1,canopy,Doryphora sassafras,5.4
+1,canopy,Acmena smithii,42
+1,canopy,Ceratopetalum apetalum,3
+1,canopy,Tristaniopsis laurina,15
+1,canopy,Abrophyllum ornans,5
+1,canopy,Waterhousea floribunda,10
+2,groundcover,Coprosma quadrifida,10.4
+2,groundcover,Adiantum aethiopicum,7
+2,groundcover,Doodia aspera,28.6
+2,groundcover,Carex polyantha,30
+2,groundcover,Tristaniopsis laurina,2
+2,groundcover,Dianella caerulea subsp. caerulea,1
+2,groundcover,Oplismenus aemulus,0.4
+2,groundcover,Tylophora barbata,0.2
+2,groundcover,Blechnum nudum,3.2
+2,groundcover,Lomandra longifolia,1.2
+2,groundcover,Dichondra repens,0.6
+2,shrub,Coprosma quadrifida,0.8
+2,shrub,Tristaniopsis laurina,39
+2,shrub,Smilax australis,0.8
+2,shrub,Pittosporum revolutum,0.2
+2,shrub,Notelaea venosa,0.2
+2,canopy,Tristaniopsis laurina,49
+3,groundcover,Pteridium esculentum,8.6
+3,groundcover,Calochlaena dubia,23.4
+3,groundcover,Blechnum nudum,2.4
+3,groundcover,Lomandra longifolia,13.8
+3,groundcover,Coprosma quadrifida,0.6
+3,groundcover,Adiantum aethiopicum,2.4
+3,groundcover,Anagallis arvensis,2.2
+3,groundcover,Senecio prenanthoides,0.2
+3,groundcover,Misc. forbs,0.6
+3,groundcover,Rubus fruticosus agg.,0.4
+3,groundcover,Rubus parvifolius,1
+3,groundcover,Poa meionectes,17.2
+3,groundcover,Misc. grasses,3
+3,groundcover,Hydrocotyle peduncularis,0
+3,groundcover,Dichondra repens,0.6
+3,groundcover,Carex longebrachiata,0.2
+3,shrub,Coprosma quadrifida,2
+3,shrub,Pomaderris aspera,15.4
+3,shrub,Senecio prenanthoides,2.6
+3,shrub,Leptospermum brevipes,14.1
+3,shrub,Acacia mearnsii,1
+3,shrub,Cassinia aculeata,0.95
+3,shrub,Lomatia myricoides,1
+3,shrub,Acacia melanoxylon,1.6
+3,shrub,Bursaria spinosa subsp. lasiophylla,0.8
+3,shrub,Pteridium esculentum,4.4
+3,subcanopy,Acacia mearnsii,0
+3,subcanopy,Acacia melanoxylon,3.9
+3,subcanopy,Pomaderris aspera,10
+3,subcanopy,Leptospermum brevipes,1.2
+3,subcanopy,Eucalyptus viminalis,0.6
+3,canopy,Acacia melanoxylon,0.6
+3,canopy,Acacia mearnsii,0.2
+3,canopy,Eucalyptus viminalis,29
+4,groundcover,Pellaea falcata,9
+4,groundcover,Oplismenus aemulus,11.2
+4,groundcover,Dichondra repens,1.7
+4,groundcover,Pteridium esculentum,3.2
+4,groundcover,Melicytus dentatus,2.25
+4,groundcover,Acacia floribunda,0.2
+4,groundcover,Tylophora barbata,0.2
+4,groundcover,Carex longebrachiata,4.8
+4,groundcover,Carex appressa,0.8
+4,groundcover,Hydrocotyle peduncularis,0.4
+4,groundcover,Hydrocotyle tripartita,0.2
+4,groundcover,Microlaena stipoides,7.4
+4,groundcover,Stellaria flaccida,1.2
+4,groundcover,Glycine microphylla,0.2
+4,groundcover,Coprosma quadrifida,0.8
+4,groundcover,Conyza sumatrensis,0
+4,groundcover,Misc. grasses,1.8
+4,groundcover,Lomandra longifolia,5.2
+4,groundcover,Doodia aspera,1.2
+4,groundcover,Asplenium flabellifolium,1.4
+4,groundcover,Urtica incisa,1
+4,shrub,Pteridium esculentum,1.4
+4,shrub,Bursaria spinosa subsp. spinosa,1.2
+4,shrub,Melicytus dentatus,10
+4,shrub,Acacia floribunda,10
+4,shrub,Lomatia myricoides,1.9
+4,shrub,Cassinia aculeata,0.6
+4,shrub,Coprosma quadrifida,0.7
+4,shrub,Casuarina cunninghamiana,0.4
+4,shrub,Beyeria lasiocarpa,0.6
+4,shrub,Notelaea longifolia,0.4
+4,shrub,Cassinia trinerva,2
+4,subcanopy,Acacia floribunda,4.4
+4,subcanopy,Casuarina cunninghamiana,0.4
+4,subcanopy,Eucalyptus cypellocarpa,0.4
+4,canopy,Eucalyptus cypellocarpa,8
+4,canopy,Casuarina cunninghamiana,36
+4,canopy,Eucalyptus agglomerata,0.4
+5,groundcover,Pteridium esculentum,0.2
+5,groundcover,Carex longebrachiata,1
+5,groundcover,Backhousia myrtifolia,1
+5,groundcover,Oplismenus aemulus,0.8
+5,groundcover,Acacia floribunda,0.2
+5,groundcover,Melicytus dentatus,0.8
+5,groundcover,Poa meionectes,2.1
+5,groundcover,Dichondra repens,1.2
+5,groundcover,Austrostipa ramosissima,2
+5,groundcover,Entolasia marginata,0.8
+5,groundcover,Pellaea falcata,0.2
+5,groundcover,Lomandra longifolia,2.9
+5,groundcover,Lepidosperma laterale,3.6
+5,groundcover,Tristaniopsis laurina,1
+5,groundcover,Microlaena stipoides,30
+5,groundcover,Carex gaudichaudiana,0.2
+5,groundcover,Entolasia stricta,1.4
+5,groundcover,Misc. grasses,2
+5,shrub,Backhousia myrtifolia,16.9
+5,shrub,Acacia floribunda,10.4
+5,shrub,Tristaniopsis laurina,14
+5,shrub,Casuarina cunninghamiana,1
+5,shrub,Melicytus dentatus,0.6
+5,shrub,Eucalyptus elata,0
+5,shrub,Acacia mearnsii,0.8
+5,subcanopy,Backhousia myrtifolia,6
+5,subcanopy,Acacia floribunda,1
+5,subcanopy,Tristaniopsis laurina,7.2
+5,subcanopy,Casuarina cunninghamiana,4
+5,canopy,Casuarina cunninghamiana,16
+5,canopy,Eucalyptus elata,3.4
+6,groundcover,Lepidosperma laterale,2.3
+6,groundcover,Dichondra repens,0.2
+6,groundcover,Hibbertia aspera subsp. aspera,0.4
+6,groundcover,Entolasia stricta,0.2
+6,groundcover,Microlaena stipoides,1.9
+6,groundcover,Lomandra longifolia,6.6
+6,groundcover,Melicytus dentatus,1.2
+6,groundcover,Astroloma humifusum,3
+6,groundcover,misc. grasses,1.4
+6,groundcover,Cryptandra spinescens,2.1
+6,shrub,Callistemon subulatus,3.2
+6,shrub,Leptospermum brevipes,27.6
+6,shrub,Acacia mearnsii,2.8
+6,shrub,Acacia floribunda,15.4
+6,shrub,Notelaea venosa,1
+6,shrub,Casuarina cunninghamiana,7.2
+6,subcanopy,Casuarina cunninghamiana,17.2
+6,subcanopy,Acacia mearnsii,0.2
+6,subcanopy,Leptospermum brevipes,0.8
+6,canopy,Casuarina cunninghamiana,6.2
+7,groundcover,Pteridium esculentum,1
+7,groundcover,Lomandra longifolia,6
+7,groundcover,Carex appressa,2.4
+7,groundcover,Ehrharta erecta,2.4
+7,groundcover,Rubus fruticosus agg.,1.2
+7,groundcover,misc. grasses,0.8
+7,groundcover,debris,22.4
+7,shrub,Lomatia myricoides,0.2
+7,shrub,Pomaderris aspera,1.4
+7,shrub,Acacia dealbata subsp. dealbata,14
+7,shrub,Acacia melanoxylon,1.2
+7,shrub,Acacia boormanii,13.2
+7,shrub,Beyeria viscosa,6.2
+7,shrub,Leptospermum brevipes,1
+7,subcanopy,Acacia dealbata subsp. dealbata,18
+7,subcanopy,Eucalyptus rubida,20.4
+7,canopy,Eucalyptus rubida,21.8
+8,groundcover,Stellaria flaccida,5.5
+8,groundcover,Rubus fruticosus agg.,19
+8,groundcover,Melicytus dentatus,0.6
+8,groundcover,Coprosma quadrifida,0.6
+8,groundcover,Poa labillardierei subsp.. labillardierei,2.6
+8,groundcover,Acaena novae-zelandiae,2.2
+8,groundcover,Misc. grasses,0.8
+8,groundcover,Prunella vulgaris,1.2
+8,groundcover,Blechnum nudum,27.2
+8,groundcover,misc. herbs / forbs,1
+8,groundcover,Carex appressa,9.2
+8,groundcover,Adiantum aethiopicum,0.2
+8,groundcover,Pteridium esculentum,0
+8,groundcover,Rubus parvifolius,1.2
+8,groundcover,Calochlaena dubia,2.8
+8,groundcover,Cirsium vulgare,0.4
+8,groundcover,Calochlaena dubia,6
+8,shrub,Melicytus dentatus,3.9
+8,shrub,Coprosma quadrifida,9.6
+8,shrub,Pomaderris aspera,1
+8,shrub,Leptospermum brevipes,2.1
+8,shrub,Acacia dealbata subsp. dealbata,1.4
+8,shrub,Leptospermum grandifolium,0.6
+8,shrub,Lomatia myricoides,0.4
+8,subcanopy,Pomaderris aspera,7.4
+8,subcanopy,Acacia melanoxylon,1
+8,subcanopy,Leptospermum brevipes,10
+8,subcanopy,Acacia dealbata subsp. dealbata,5.6
+8,canopy,Acacia melanoxylon,14
+8,canopy,Eucalyptus camphora subsp. humeana,38
+8,canopy,Eucalyptus radiata,2
+9,groundcover,Pteridium esculentum,9.4
+9,groundcover,Poa labillardierei subsp.. labillardierei,33.4
+9,groundcover,Rubus parvifolius,1.4
+9,groundcover,Viola hederacea,1.2
+9,groundcover,Geranium homeanum,0.2
+9,groundcover,Calochlaena dubia,3.6
+9,groundcover,Coprosma quadrifida,1.5
+9,groundcover,Platylobium formosum subsp. formosum,1.4
+9,groundcover,Dianella tasmanica,0.4
+9,groundcover,Blechnum nudum,2.5
+9,groundcover,Juncus sp. (Gibbo),0.4
+9,groundcover,Carex appressa,1.4
+9,groundcover,Dichondra repens,0.2
+9,groundcover,Rubus fruticosus agg.,0.4
+9,groundcover,Cyathea sp.,0.4
+9,groundcover,Misc. grasses,1
+9,shrub,Bedfordia arborescens,4.2
+9,shrub,Lomatia myricoides,11
+9,shrub,Lomatia ilicifolia,2.2
+9,shrub,Eucalyptus camphora subsp. humeana,1.4
+9,shrub,Acacia dealbata subsp. dealbata,1.6
+9,shrub,Cassinia aculeata,6
+9,shrub,Pultenaea juniperina,7.1
+9,shrub,Prostanthera lasianthos,7
+9,shrub,Coprosma quadrifida,6.2
+9,shrub,Platylobium formosum subsp. formosum,0.8
+9,shrub,Leptospermum grandifolium,1
+9,shrub,Pomaderris aspera,2.2
+9,shrub,Leptospermum brevipes,1
+9,shrub,Hovea asperifolia subsp. asperifolia,0
+9,shrub,Polyscias sambucifolia,0.6
+9,shrub,Eucalyptus radiata,1.5
+9,shrub,Acacia melanoxylon,0.6
+9,subcanopy,Acacia dealbata subsp. dealbata,56
+9,subcanopy,Eucalyptus camphora subsp. humeana,0.2
+9,subcanopy,Eucalyptus viminalis,0.2
+9,subcanopy,Eucalyptus radiata,7.4
+9,canopy,Acacia dealbata subsp. dealbata,5
+9,canopy,Eucalyptus viminalis,3.4
+9,canopy,Eucalyptus radiata,6
+10,groundcover,Adiantum aethiopicum,2.6
+10,groundcover,Dichondra repens,0.8
+10,groundcover,Poa sieberiana,5.8
+10,groundcover,Carex appressa,1.6
+10,groundcover,Pteridium esculentum,1.8
+10,groundcover,Lastreopsis decomposita,2.6
+10,groundcover,Microlaena stipoides,2
+10,groundcover,Rubus parvifolius,0.8
+10,groundcover,Dianella tasmanica,0.4
+10,groundcover,Urtica incisa,0.8
+10,shrub,Rubus fruticosus agg.,12.4
+10,shrub,Lomatia myricoides,0.6
+10,shrub,Coprosma quadrifida,23
+10,shrub,Cassinia aculeata,1.4
+10,shrub,Bursaria spinosa subsp. lasiophylla,29
+10,shrub,Acacia pravissima,0.8
+10,shrub,Cassinia aculeata,4.6
+10,shrub,Pomaderris aspera,5.4
+10,shrub,Leptospermum brevipes,16
+10,shrub,Leptospermum sp. (Snowy Ck),7
+10,shrub,Rosa rubiginosa,0.6
+10,shrub,Eucalyptus stellulata,1
+10,shrub,Acacia dealbata subsp. dealbata,0.4
+10,subcanopy,Leptospermum brevipes,38
+10,subcanopy,Leptospermum sp. (Snowy Ck),2
+10,subcanopy,Eucalyptus stellulata,6
+10,subcanopy,Eucalyptus camphora subsp. humeana,2
+10,subcanopy,Pomaderris aspera,3
+10,canopy,Leptospermum brevipes,7
+10,canopy,Eucalyptus stellulata,25
+10,canopy,Eucalyptus camphora subsp. humeana,15
+11,groundcover,Xanthium occidentale,5.4
+11,groundcover,Lomandra longifolia,17.4
+11,groundcover,Sida rhombifolia,1.6
+11,groundcover,Tagetes minuta,1.3
+11,groundcover,Juncus continuus,2.2
+11,groundcover,Verbena quadrangularis,0.8
+11,groundcover,Centella asiatica,0.2
+11,groundcover,Geranium homeanum,0.6
+11,groundcover,Rumex brownii,0.2
+11,groundcover,Hydrocotyle penduncularis,1.7
+11,groundcover,Pratia purpurascens,0.4
+11,groundcover,Paspalum dilatatum,0.2
+11,groundcover,Microlaena stipoides,62
+11,groundcover,Cayratia clematidea,0.2
+11,groundcover,Poa sieberiana,1.1
+11,groundcover,Hydrocotyle tripartita,0.4
+11,groundcover,Tradescantia fluminensis,0.4
+11,groundcover,Bidens subalternans,3.8
+11,groundcover,Bidens pilosa,1.4
+11,groundcover,Commelina cyanea,6
+11,groundcover,Urtica incisa,6.2
+11,groundcover,Trifolium repens,0.6
+11,groundcover,Persicaria strigosa,0.8
+11,groundcover,Oplismenus aemulus,3
+11,groundcover,Cymbopogon refractus,0.2
+11,groundcover,Carex sp. (Mann),2.6
+11,groundcover,Imperata cylindrica,3.4
+11,shrub,Acacia irrorata subsp. irrorata,8
+11,shrub,Cayratia clematidea,1
+11,shrub,Melicytus dentatus,0.2
+11,shrub,Casuarina cunninghamiana,3.4
+11,shrub,Notelaea microcarpa subsp.. microcarpa,3.8
+11,subcanopy,Casuarina cunninghamiana,6
+11,subcanopy,Eucalyptus amplifolia,0.2
+11,subcanopy,Acacia irrorata subsp. irrorata,3
+11,canopy,Casuarina cunninghamiana,7.6
+11,canopy,Eucalyptus amplifolia,10
+12,groundcover,Commelina cyanea,24.8
+12,groundcover,Urtica incisa,2.6
+12,groundcover,Pteridium esculentum,2.9
+12,groundcover,Bidens pilosa,2
+12,groundcover,Bidens subalternans,0.2
+12,groundcover,Lomandra hystrix,14.9
+12,groundcover,Conyza sp. (Cataract),1
+12,groundcover,Calystegia marginata,0.6
+12,groundcover,Conyza parva,3.2
+12,groundcover,Geranium molle,0.2
+12,groundcover,Cayratia clematidea,0.2
+12,groundcover,Pennisetum clandestinum,29.6
+12,groundcover,Entolasia stricta,0.6
+12,groundcover,Verbena bonariensis,0.6
+12,groundcover,Microlaena stipoides,4.8
+12,groundcover,Stephania japonica,0.2
+12,groundcover,Oplismenus aemulus,2.4
+12,groundcover,Geitonoplesium cymosum,0.4
+12,groundcover,Paspalum dilatatum,0.4
+12,groundcover,Imperata cylindrica,5.6
+12,groundcover,Misc. herbs,1.6
+12,groundcover,Senecio madagascariensis,0.2
+12,groundcover,Hypochaeris radicata,0.2
+12,groundcover,Setaria pumila,0.8
+12,groundcover,Debris,1
+12,groundcover,Imperata cylindrica,9.8
+12,shrub,Sida rhombifolia,2.4
+12,shrub,Tagetes minuta,0.8
+12,shrub,Solanum mauritianum,5.4
+12,shrub,Ligustrum sinense,4.5
+12,shrub,Melicytus dentatus,13
+12,shrub,Acacia floribunda,2.22
+12,shrub,Notelaea microcarpa subsp.. velutina,1.4
+12,shrub,Eucalyptus tereticornis,0.4
+12,shrub,Angophora subvelutina,0.4
+12,shrub,Rhytidosporum diosmoides,0.4
+12,shrub,Acacia irrorata subsp. irrorata,8.6
+12,shrub,Solanum americanum,2.4
+12,subcanopy,Eucalyptus tereticornis,0.4
+12,subcanopy,Angophora subvelutina,0.2
+12,canopy,Eucalyptus tereticornis,33.2
+12,canopy,Angophora subvelutina,7
+12,canopy,Casuarina cunninghamiana,16
+13,groundcover,Geitonoplesium cymosum,0.8
+13,groundcover,Oplismenus imbecillis,27.6
+13,groundcover,Oplismenus aemulus,3
+13,groundcover,Stephania japonica,1.4
+13,groundcover,Dichondra repens,3.2
+13,groundcover,Centella asiatica,3.4
+13,groundcover,Lomandra longifolia,9
+13,groundcover,Adiantum aethiopicum,0.4
+13,groundcover,Imperata cylindrica,2.1
+13,groundcover,Lepironia articulata,2.3
+13,groundcover,Calochlaena dubia,30
+13,groundcover,Oxalis exilis,0
+13,groundcover,Pteridium esculentum,3.4
+13,groundcover,Entolasia marginata,0.9
+13,groundcover,Misc. grasses,0.2
+13,groundcover,Misc. herbs,0.2
+13,shrub,Stephania japonica,0.6
+13,shrub,Acacia leiocalyx subsp. leiocalyx,6.7
+13,shrub,Parsonsia straminea,0.2
+13,shrub,Casuarina glauca,0.7
+13,shrub,Breynia oblongifolia,0.6
+13,shrub,Trema tomentosa subsp.. aspera,1.2
+13,shrub,Notelaea longifolia,3.6
+13,shrub,Acacia irrorata subsp. irrorata,0.2
+13,shrub,Syzygium oleosum,6.4
+13,shrub,Pomaderris aspera,0.6
+13,shrub,Alphitonia excelsa,4.4
+13,shrub,Grevillea robusta,0.4
+13,shrub,Duboisia myoporoides,1.2
+13,shrub,Acacia floribunda,4.2
+13,shrub,Morinda jasminoides,0.2
+13,shrub,Melaleuca quinquenervia,1.2
+13,shrub,Lophostemon suaveolens,0
+13,shrub,Micrantheum hexandrum,0.4
+13,subcanopy,Acacia leiocalyx subsp. leiocalyx,1.7
+13,subcanopy,Casuarina glauca,11.7
+13,subcanopy,Syzygium oleosum,1.6
+13,subcanopy,Alphitonia excelsa,2.6
+13,subcanopy,Duboisia myoporoides,7.5
+13,subcanopy,Melaleuca quinquenervia,0.2
+13,subcanopy,Lophostemon suaveolens,2
+13,subcanopy,Grevillea robusta,1.6
+13,subcanopy,Leptospermum brachyandrum,0.8
+13,canopy,Casuarina glauca,9
+13,canopy,Syzygium oleosum,0
+13,canopy,Alphitonia excelsa,16.4
+13,canopy,Melaleuca quinquenervia,10
+13,canopy,Duboisia myoporoides,0.6
+13,canopy,Lophostemon suaveolens,29.4
+13,canopy,Grevillea robusta,1
+13,canopy,Tree (Sportsmans 57),12
+14,shrub,Leptospermum brevipes,8.3
+14,shrub,Acacia dealbata subsp. dealbata,3.6
+14,shrub,Hovea asperifolia subsp. asperifolia,13.5
+14,shrub,Cassinia aculeata,2.2
+14,shrub,Cassinia aculeata,0.4
+14,shrub,Lomatia myricoides,5.6
+14,shrub,Acacia pravissima,45
+14,shrub,Eucalyptus radiata,0.2
+14,shrub,Eucalyptus viminalis,1.4
+14,shrub,Pomaderris aspera,0.9
+14,shrub,Dodonaea viscosa subsp. cuneata,3.5
+14,shrub,Acacia implexa,3.7
+14,shrub,Acacia falciformis,1.2
+14,subcanopy,Acacia dealbata subsp. dealbata,15.1
+14,subcanopy,Eucalyptus radiata,2
+14,subcanopy,Eucalyptus viminalis,7
+14,canopy,Eucalyptus radiata,13.2
+14,canopy,Eucalyptus viminalis,27
+15,groundcover,Doodia aspera,3
+15,groundcover,Ligustrum sinense,1.9
+15,groundcover,Adiantum hispidulum,1
+15,groundcover,Adiantum aethiopicum,3.5
+15,groundcover,Oplismenus imbecillis,0.5
+15,groundcover,Tradescantia fluminensis,2.2
+15,groundcover,Gymnostachys anceps,2.4
+15,groundcover,Lomandra longifolia,9.5
+15,groundcover,Guioa semiglauca,0.2
+15,groundcover,Pandorea pandorana,0.4
+15,shrub,Trophis scandens,4
+15,shrub,Ripogonum album,52
+15,shrub,Solanum mauritianum,1
+15,shrub,Ligustrum sinense,9
+15,shrub,Commersonia fraseri,10
+15,shrub,Acmena smithii,3.2
+15,shrub,Glochidion ferdinandi subsp.. ferdinandi,8
+15,subcanopy,Ripogonum album,19
+15,subcanopy,Commersonia fraseri,12
+15,subcanopy,Acmena smithii,13
+15,canopy,Acmena smithii,5
+15,canopy,Eucalyptus tereticornis,28
+15,canopy,Eucalyptus resinifera,19

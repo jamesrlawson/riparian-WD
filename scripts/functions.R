@@ -433,3 +433,11 @@ fitspecies <- function(hydro, df, species) {
   
 }
 
+# relabund finds relative % cover for each species at each site
+
+relabund <- function(df) {
+  
+  relcover <- df$speciescover / df$totalcover 
+  cbind(df, "relcover" = relcover)
+}
+
