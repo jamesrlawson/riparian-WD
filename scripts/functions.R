@@ -1,229 +1,3 @@
-fitmodels <- function(x) {
-     
-  fit.linear  <- lm(CWM ~ x, data = hydroCWM)
-  fit.quad    <- lm(CWM ~ x + I(x ^2), data = hydroCWM)  
-  fit.exp     <- lm(CWM ~ log10(x), subset = x > 0, data = hydroCWM) # THIS IS THE LINE THAT HANDLES INF's!
-  
-  # p-values
-  linear.pval <- anova(fit.linear)[1,"Pr(>F)"]
-  quad.pval   <- anova(fit.quad)[1,"Pr(>F)"]
-  exp.pval    <- anova(fit.exp)[1,"Pr(>F)"]
-  
-  # r-squared
-  linear.r2   <- summary(fit.linear)$r.squared
-  quad.r2     <- summary(fit.quad)$r.squared
-  exp.r2      <- summary(fit.exp)$r.squared  
-  
-  
-  fitmodels.df <- cbind(linear.pval, linear.r2, quad.pval, quad.r2, exp.pval, exp.r2)
-  
-  write.table(fitmodels.df, file="output/fitmodels.csv", append=TRUE, sep=",", col.names=FALSE, row.names=FALSE)
- 
-}
-
-# using a loop allows us to access colnames, where plyr does not
-
-
-plot.linear <- function(df, pvals) {
-
-  setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
-    
-  for(i in 1:ncol(df)) {
-    hydro <- df[[i]]  
-    hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
-        
-    fit.linear <- lm(zCWM ~ hydro, data = df)
-    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
-    
-    padj <- pvals$linear.padj[i]
-    r2 <- signif(summary(fit.linear)$r.squared, 5)
-    
-    label <- substitute(deparse(pvals$figlabel[i]))
-
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
-    #on.exit(dev.off())
-    
-    df$hydro <- hydro
-    df$catname <- catname
-    
-    p <- ggplot(df, aes(x = hydro, y = zCWM))
-    p <- p + geom_point(aes(shape = catname), size = 2)
-    p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
-    p <- p + xlab(hydroname)
-    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
-    p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
-    p <- p + theme_bw() 
-    p <- p + theme_set(theme_bw(base_size = 8))
-    p <- p + theme(legend.position = "none",
-                   axis.text = element_text(size = rel(0.8)),
-                   axis.title.y = element_text(hjust=0.35),
-                   axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   panel.grid.major = element_blank(),
-                   axis.line = element_line(size=.2, color = "black")
-    )
-    
-    print(p) 
-    dev.off()
-  }
-}
-
-
-plot.quad <- function(df, pvals) {
-  
-  for(i in 1:ncol(df)) {
-    hydro <- df[[i]]  
-    hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
-    
-    fit.quad <- lm(zCWM ~ hydro + I(hydro^2), data = df)
-    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
-    
-    padj <- pvals$quad.padj[i]
-    r2 <- signif(summary(fit.quad)$r.squared, 5)
-    
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
-    #on.exit(dev.off())
-    df$hydro <- hydro
-    df$catname <- catname
-    
-    p <- ggplot(df, aes(x = hydro, y = zCWM))
-    p <- p + geom_point(aes(shape = catname), size = 2)
-    p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black", alpha = 0.2) 
-    p <- p + xlab(hydroname)
-    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
-    p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
-    p <- p + theme_bw() 
-    p <- p + theme_set(theme_bw(base_size = 8))
-    p <- p + theme(legend.position = "none",
-                   axis.text = element_text(size = rel(0.8)),
-                   axis.title.y = element_text(hjust=0.35),
-                   axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   panel.grid.major = element_blank(),
-                   axis.line = element_line(size=.2, color = "black")
-    )
-    
-    print(p)
-    dev.off()
-  }
-}
-
-plot.exp <- function(df, pvals) {
-  
-  for(i in 1:ncol(df)) {
-    hydro <- df[[i]]  
-    hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
-    
-    fit.exp <- lm(zCWM ~ log10(hydro), data = df)
-    catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
-    
-    padj <- pvals$exp.padj[i]
-    r2 <- signif(summary(fit.exp)$r.squared, 5)
-    
-    pdf(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 2.795, height = 2.329)
-    #on.exit(dev.off())
-    
-    df$hydro <- hydro
-    df$catname <- catname
-    
-    p <- ggplot(df, aes(x = hydro, y = zCWM))
-    p <- p + geom_point(aes(shape = catname), size = 2)
-    p <- p + stat_smooth(size = 0.2, fullrange = TRUE, method = "lm", formula = y ~ log10(x), se=TRUE, col="black", alpha = 0.2) 
-    p <- p + xlab(hydroname)
-    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
-    p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", pvals$figlabel[i]), size = 3)
-    p <- p + theme_bw() 
-    p <- p + theme_set(theme_bw(base_size = 8))
-    p <- p + theme(legend.position = "none",
-                   axis.text = element_text(size = rel(0.8)),
-                   axis.title.y = element_text(hjust=0.35),
-                   axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   panel.grid.major = element_blank(),
-                   axis.line = element_line(size=.2, color = "black")
-              )
-    
-
-    print(p)
-    dev.off()
-   #ggsave(sprintf("output/figures/%s_p-%s_r2-%s.pdf", hydroname, padj, r2), width = 50, height = 40, units=c("mm"), p, scale=1)
-    
-  }
-}
-
-
-stderr <- function(x) sd(x)/sqrt(length(x))
-
-
-
-plot.means <- function(df) {
-   
-  outDir = "output/figures/categories"
-  dir.create(outDir, recursive=TRUE, showWarnings = FALSE)
-  
-  pdf(sprintf("%s/comparemeans.pdf", outDir), width = 4.29, height = 2.329)
-    
-  p <-ggplot(df, aes(x=category, y=mean)) + 
-      geom_point(stat = "identity", size=2) + 
-      geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), size = 0.1, width=.1) +
-      facet_grid(. ~ datatype) +
-      xlab(df$labels[2]) +
-      ylab(expression(paste("Mean wood density ", "(g / ", cm^-3,))) +
-      scale_y_continuous(limits = c(0.5, 0.7)) +
-      theme_bw() +
-      theme_set(theme_bw(base_size = 8)) +
-      theme(legend.position = "none",
-                   axis.text = element_text(size = rel(0.8)),
-                   axis.title.y = element_text(hjust=0.35),
-                   axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   panel.grid.major = element_blank(),
-                   axis.line = element_line(size=.7, color = "black")
-            )
-  print(p)
-  dev.off()
-  
-}
-
-plot.means2 <- function(df) {
-  
-  outDir = "output/figures/categories"
-  dir.create(outDir, recursive=TRUE, showWarnings = FALSE)
-  
-  dfname = deparse(substitute(df))
-  
-  pdf(sprintf("%s/%s.pdf", outDir, dfname), width = 4.29, height = 2.329)
-  
-  p <-ggplot(df, aes(x=category, y=mean)) + 
-    geom_point(stat = "identity", size=2) + 
-    geom_errorbar(aes(ymin=mean-stderr, ymax=mean+stderr), size = 0.1, width=.1) +
-    xlab(df$labels[1]) +
-    ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")"))) +
-     annotate("text", x = 0.7, y = 0.69, label = df$labels[2], size = 3) +  
-    scale_y_continuous(limits = c(0.5, 0.7)) +
-    theme_bw() +
-    theme_set(theme_bw(base_size = 8)) +
-    theme(legend.position = "none",
-          axis.text = element_text(size = rel(0.8)),
-          axis.title.y = element_text(hjust=0.35),
-          axis.title.x = element_text(vjust=0.35),
-          panel.border = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.grid.major = element_blank(),
-          axis.line = element_line(size=.2, color = "black"),
-          strip.background = element_blank()
-    )
-  print(p)
-  dev.off()
-  
-}
 
 
 ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
@@ -357,15 +131,15 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
 }
 
 
-plot.species <- function(df, species, labels) {
+plot.species <- function(df, species) {
   
-  setwd("C:/Users/JLawson/Desktop/stuff/data/analysis/R/WDmeans")
+  setwd("C:/Users/James/Desktop/stuff/data/analysis/R/WDmeans")
   
   for(i in 1:ncol(df)) {
     hydro <- df[[i]]  
     hydroname <- as.expression(names(df[i]))   # could also ask hydroname to refer to a vector of proper label names
     
-    fit.linear <- lm(heart.avg ~ hydro, data = df)
+    fit.linear <- lm(WD ~ hydro, data = df)
     catname <- as.factor(c(3,2,2,3,3,2,1,1,1,1,2,2,3,1,3))
     
     pval<- anova(fit.linear)[1,"Pr(>F)"]
@@ -378,18 +152,18 @@ plot.species <- function(df, species, labels) {
     outDir = sprintf("output/figures/species/%s", sp)
     dir.create(outDir, recursive=TRUE, showWarnings = FALSE)
                 
-    pdf(sprintf("%s/%s.pdf", outDir, hydroname), width = 2.795, height = 2.329)
+    svg(sprintf("%s/%s.svg", outDir, hydroname), width = 2.795, height = 2.329, pointsize=8)
     #on.exit(dev.off())
     
     df$hydro <- hydro
     
-    p <- ggplot(df, aes(x = hydro, y = heart.avg))
+    p <- ggplot(df, aes(x = hydro, y = WD))
     p <- p + geom_point(ysize = 2)
     p <- p + stat_smooth(size = 0.2, method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
     p <- p + xlab(hydroname)
-    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
+    p <- p + ylab(expression(paste("Wood density ", "(g / ", cm^3,")")))
     p <- p + ylim(0.45, 0.75)
-    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", labels[i]), size = 3)
+#    p <- p + annotate("text", x = min(hydro) * 1.1, y = 0.74, label = sprintf("%s", labels[i]), size = 3)
     p <- p + theme_bw() 
     p <- p + theme_set(theme_bw(base_size = 8))
     p <- p + theme(legend.position = "none",
@@ -408,30 +182,6 @@ plot.species <- function(df, species, labels) {
   
 }
 
-fitspecies <- function(hydro, df, species) {
-  
-  fit.linear  <- lm(heart.avg ~ hydro, data = df)
-  fit.quad    <- lm(heart.avg ~ hydro + I(hydro ^2), data = df)  
-#  fit.exp     <- lm(heart.avg ~ log10(hydro), subset = hydro > 0, data = df) # THIS IS THE LINE THAT HANDLES INF's!
-  
-  # p-values
-  linear.pval <- anova(fit.linear)[1,"Pr(>F)"]
-  quad.pval   <- anova(fit.quad)[1,"Pr(>F)"]
-#  exp.pval    <- anova(fit.exp)[1,"Pr(>F)"]
-  
-  # r-squared
-  linear.r2   <- summary(fit.linear)$r.squared
-  quad.r2     <- summary(fit.quad)$r.squared
-#  exp.r2      <- summary(fit.exp)$r.squared  
-  
-  
-  fitspecies.df <- cbind(linear.pval, linear.r2, quad.pval, quad.r2)
-  
-  sp = deparse(substitute(species))
-  
-  write.table(fitspecies.df, file=sprintf("output/figures/species/%s/stats.csv", sp), append=TRUE, sep=",", col.names=FALSE, row.names=FALSE)
-  
-}
 
 # relabund finds relative % cover for each species at each site
 
@@ -441,3 +191,148 @@ relabund <- function(df) {
   cbind(df, "relcover" = relcover)
 }
 
+
+getStats <- function(df, var, trait) {
+  
+  # create / set output directory
+  
+  statsDir <- "C:/Users/James/Desktop/stuff/data/analysis/R/WDmeans/output/stats"
+  
+  dir.create(statsDir, recursive=TRUE, showWarnings=FALSE)
+  
+  # output stats for each metric to dataframe
+  
+  y <- data.frame()
+  
+  for(i in 1:ncol(df)) {
+    
+    hydro <- df[[i]]  
+    hydroname <- as.expression(colnames(df[i]))  
+    
+    fit.linear <- lm(var ~ hydro, data = df)
+    fit.quad <- lm(var ~ hydro + I(hydro^2), data = df)
+    
+    r2.linear <- signif(summary(fit.linear)$r.squared, 5)
+    pval.linear <- anova(fit.linear)[1,"Pr(>F)"]
+    
+    r2.quad <- signif(summary(fit.quad)$r.squared, 5)
+    quad.summ <- summary(fit.quad)
+    pval.quad <- pf(quad.summ$fstatistic[1], quad.summ$fstatistic[2], quad.summ$fstatistic[3],lower.tail = FALSE)
+    
+    x <- cbind(pval.linear, r2.linear, pval.quad, r2.quad)
+    
+    x <- as.data.frame(x)
+    
+    x <- cbind(as.character(hydroname), x)
+    
+    colnames(x) <- c("metric", "pval.linear", "r2.linear", "pval.quad", "r2.quad")
+    
+#    if (pval.linear < 0.05) { 
+      y <- rbind(x,y)
+#    }
+    
+  }
+  
+  var <- deparse(substitute(var))
+  
+  y <- subset(y, metric != "CWM")
+  y <- subset(y, metric != "range")
+  y <- subset(y, metric != "CWV")
+  y <- subset(y, metric != "plotID")
+  y$padj.linear <- p.adjust(y$pval.linear, method="BH")
+  y$padj.quad <- p.adjust(y$pval.quad, method="BH")
+  
+  write.csv(y, sprintf("%s/%s_stats.csv", statsDir, var))
+  
+  return(y)
+  
+}
+
+plot.quad <- function(df, var, trait) { 
+  
+  
+  dir.create("output/figures/quad", recursive=TRUE)
+  
+  
+    
+  for(i in 1:ncol(df)) {
+    hydro <- df[[i]]  
+    hydroname <- as.expression(colnames(df[i]))   
+    fit.quad <- lm(var ~ hydro + I(hydro^2), data = df)
+    
+    #  padj <- labels$p.adj[i]
+    r2 <- signif(summary(fit.quad)$r.squared, 5)
+    quad.summ <- summary(fit.quad)
+    pval <- pf(quad.summ$fstatistic[1], quad.summ$fstatistic[2], quad.summ$fstatistic[3],lower.tail = FALSE)
+    
+    svg(sprintf("output/figures/quad/%s.svg", hydroname), width = 2.795, height = 2.329, pointsize=8)
+    
+    p <- qplot(hydro, var, data = df) 
+    p <- p + geom_point(size = 2)
+    
+    p <- p + stat_smooth(aes(group = 1), method = "lm", formula = y ~ x + I(x^2), se=TRUE, col="black", alpha = 0.2) 
+    p <- p + xlab(hydroname)
+    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
+    p <- p + theme_bw() 
+    p <- p + theme_set(theme_bw(base_size = 8))
+    p <- p + theme(legend.position = "none",
+                   axis.text = element_text(size = rel(0.8)),
+                   axis.title.y = element_text(hjust=0.35),
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.2, color = "black")
+    )
+    
+    print(p) 
+    dev.off()
+  }
+}
+
+
+plot.linear <- function(df, var, trait) { # var is alphaT/betaT/ts/Rs, etc.
+  
+  dir.create("output/figures/linear", recursive=TRUE)
+    
+  for(i in 1:ncol(df)) {
+    hydro <- df[[i]]  
+    hydroname <- as.expression(colnames(df[i]))   
+    fit.linear <- lm(var ~ hydro, data = df)
+    
+    #  padj <- labels$p.adj[i]
+    r2 <- signif(summary(fit.linear)$r.squared, 5)
+    pval <- anova(fit.linear)[1,"Pr(>F)"]
+    
+    svg(sprintf("output/figures/linear/%s.svg", hydroname), width = 2.795, height = 2.329, pointsize=8)
+        
+    p <- qplot(hydro, var, data = df) 
+    p <- p + geom_point(size = 2)
+    
+    p <- p + stat_smooth(aes(group = 1), method = "lm", formula = y ~ x, se=TRUE, col="black", alpha = 0.2) 
+    p <- p + xlab(hydroname)
+    p <- p + ylab(expression(paste("Mean wood density ", "(g / ", cm^3,")")))
+    p <- p + theme_bw() 
+    p <- p + theme_set(theme_bw(base_size = 8))
+    p <- p + theme(legend.position = "none",
+                   axis.text = element_text(size = rel(0.8)),
+                   axis.title.y = element_text(hjust=0.35),
+                   axis.title.x = element_text(vjust=0.35),
+                   panel.border = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   panel.grid.major = element_blank(),
+                   axis.line = element_line(size=.2, color = "black")
+    )
+    
+    print(p) 
+    dev.off()
+    
+  }
+}
+
+CV <- function(x,na.rm=TRUE) 100*(sd(x,na.rm=na.rm)/mean(x,na.rm=na.rm))
+
+getCWV <- function(df, number) {
+  x <- subset(df, plotID == number)
+  wtd.var(x$allWD, x$speciescover)
+}
