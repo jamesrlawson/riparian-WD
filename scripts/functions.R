@@ -81,7 +81,7 @@ ggbiplotshape <- function (pcobj, choices = 1:2, scale = 1, pc.biplot = TRUE,
     }
     g <- g + geom_segment(data = df.v, aes(x = 0, y = 0,
                                            xend = xvar, yend = yvar), arrow = arrow(length = unit(1/2,
-                                                                                                  "picas")), color = muted("red"))
+                                                                                                  "picas")), color = muted("black"))
   }
   if (!is.null(df.u$labels)) {
     if (!is.null(df.u$groups)) {
@@ -279,7 +279,6 @@ plot.quad <- function(df, var, trait) {
                    axis.text = element_text(size = rel(0.8)),
                    axis.title.y = element_text(hjust=0.35),
                    axis.title.x = element_text(vjust=0.35),
-                   panel.border = element_blank(),
                    panel.grid.minor = element_blank(),
                    panel.grid.major = element_blank(),
                    axis.line = element_line(size=.2, color = "black")

@@ -12,12 +12,12 @@ plot.quad(hydro.nonsignif, hydro.nonsignif.padj)
 
 # pca (not really worth it's own function...)
 
-svg("output/figures/PCAbiplot.svg", width = 4.29, height = 2.329, pointsize=6)
+svg("output/figures/PCAbiplot2.svg", width = 4.29, height = 2.329, pointsize=8)
 
 #g <- ggbiplotshape(hydro.signif.pca, obs.scale = 1, var.scale = 1, groups = catname$catnamesfull, ellipse = FALSE)
 g <- ggbiplotshape(hydro.signif.pca, obs.scale = 1, var.scale = 1, ellipse = FALSE)
 g <- g + theme_bw()
-g <- p + theme_set(theme_bw(base_size = 8))
+g <- g + theme_set(theme_bw(base_size = 8))
 g <- g + theme( 
                legend.position = 'none',
                axis.text = element_text(size = rel(0.8)),
